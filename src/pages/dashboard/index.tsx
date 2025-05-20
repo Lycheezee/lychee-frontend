@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import styles from "./styles/dashboard.style";
 import { DashboardHeader } from "./components/dasboard.header";
 import { FormProvider, useForm } from "react-hook-form";
+import { FoodCarousel } from "./components/foodCarousel";
 
 export const Dashboard = () => {
   const methods = useForm();
@@ -12,6 +13,8 @@ export const Dashboard = () => {
       <View style={styles.container}>
         <View>
           <DashboardHeader />
+
+          <FoodCarousel />
 
           {/* Featured Item */}
           <View style={styles.featuredContainer}>
