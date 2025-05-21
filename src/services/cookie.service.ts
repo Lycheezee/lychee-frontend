@@ -1,5 +1,5 @@
-import Cookies, { CookieAttributes } from "js-cookie";
-import { AuthUser } from "../types/user";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthUser } from '../types/user';
 
 export type Token<T = number> = {
   token: string;
@@ -7,34 +7,45 @@ export type Token<T = number> = {
 };
 
 export interface CookieKey {
-  userAuth: Omit<AuthUser, "accessToken">;
+  userAuth: Omit<AuthUser, 'accessToken'>;
   accessToken: Token;
 }
 
 export type AuthCookieKey = keyof CookieKey;
 
-class CookiesService<T extends keyof CookieKey> {
-  setCookie(cookieName: T, data: CookieKey[T], options?: CookieAttributes) {
-    Cookies.set(cookieName, JSON.stringify(data), {
-      expires: 36500,
-      ...options,
-    });
+class StorageService {
+  async setItem<K extends keyof CookieKey>(key: K, data: CookieKey[K]) {
+    try {
+      await AsyncStorage.setItem(key, JSON.stringify(data));
+    } catch (error) {
+      console.error(`Failed to save ${key} to storage`, error);
+    }
   }
 
-  getFromCookie(cookieName: T): CookieKey[T] | null {
-    if (typeof window === "undefined") return null;
-    const cookieValue = Cookies?.get(cookieName) ?? "{}";
-    const value: CookieKey[T] = JSON.parse(cookieValue);
-    return Object.keys(value).length ? value : null;
+  async getItem<K extends keyof CookieKey>(key: K): Promise<CookieKey[K] | null> {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (!value) return null;
+      return JSON.parse(value) as CookieKey[K];
+    } catch (error) {
+      console.error(`Failed to read ${key} from storage`, error);
+      return null;
+    }
   }
 
-  removeCookie(cookieName: keyof CookieKey) {
-    Cookies.remove(cookieName);
+  async removeItem(key: keyof CookieKey) {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (error) {
+      console.error(`Failed to remove ${key} from storage`, error);
+    }
   }
 
-  clearAuthCookies() {
-    this.removeCookie("accessToken");
+  async clearAuth() {
+    await this.removeItem('accessToken');
+    // You can also clear userAuth if needed
+    await this.removeItem('userAuth');
   }
 }
 
-export default new CookiesService();
+export default new StorageService();
