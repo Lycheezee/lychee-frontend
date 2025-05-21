@@ -8,5 +8,6 @@ export const linking: LinkingOptions<typeof ROUTES> = {
       [ROUTES.LOGIN]: "login",
       [ROUTES.DASHBOARD]: "dashboard",
     },
+    
   },
 };
