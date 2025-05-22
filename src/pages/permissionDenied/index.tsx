@@ -1,29 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import CookieManager from "@react-native-cookies/cookies";
-import { ROUTES } from "../../constants/routes";
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ROUTES } from '../../constants/routes';
 
 interface ProtectedRootProps {
   children: React.ReactNode;
 }
 
-export const ProtectedRoot: React.FC<ProtectedRootProps> = ({ children }) => {
+export const ProtectedRoot = ({ children }: ProtectedRootProps) => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Adjust the URL to match your backend domain if different.
-    CookieManager.get("http://localhost:8081")
-      .then((cookies) => {
-        if (cookies && cookies.authToken && cookies.authToken.value) {
+    const checkAuthToken = async () => {
+      try {
+        const authToken = await AsyncStorage.getItem('authToken');
+        if (authToken) {
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);
         }
-      })
-      .finally(() => setLoading(false));
+      } catch {
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAuthToken();
   }, []);
 
   useEffect(() => {
@@ -34,7 +39,7 @@ export const ProtectedRoot: React.FC<ProtectedRootProps> = ({ children }) => {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
       </View>
     );

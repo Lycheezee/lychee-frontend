@@ -1,9 +1,9 @@
-import { Controller, useFormContext } from "react-hook-form";
-import { TextInput } from "react-native-paper";
-import { styles } from "./InputField.style";
-import { InputFieldProps } from "./InputField.type";
+import { Controller, useFormContext } from 'react-hook-form';
+import { TextInput, Text } from 'react-native-paper';
+import { styles } from './InputField.style';
+import { InputFieldProps } from './InputField.type';
 
-export const InputField = ({ name = "", label, ...props }: InputFieldProps) => {
+export const InputField = ({ name = '', label, ...props }: InputFieldProps) => {
   const {
     control,
     formState: { errors },
@@ -14,17 +14,24 @@ export const InputField = ({ name = "", label, ...props }: InputFieldProps) => {
       control={control}
       name={name}
       render={({ field: { onChange, onBlur, value } }) => (
-        <TextInput
-          label={label}
-          mode="outlined"
-          onBlur={onBlur}
-          onChangeText={onChange}
-          value={value}
-          secureTextEntry
-          style={styles.input}
-          error={!!errors[name]}
-          {...props}
-        />
+        <>
+          <TextInput
+            label={label}
+            mode="outlined"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            secureTextEntry={props.secureTextEntry}
+            style={styles.input}
+            error={!!errors[name]}
+            {...props}
+          />
+          {errors[name] && (
+            <Text style={{ color: 'red', marginBottom: 8, fontSize: 12 }}>
+              {errors[name]?.message as string}
+            </Text>
+          )}
+        </>
       )}
     />
   );

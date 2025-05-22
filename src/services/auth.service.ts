@@ -1,8 +1,9 @@
-import axios from "axios";
-import { AuthUser, UserLoginReq, UserRegisterReq } from "../types/user";
-import cookiesService from "./cookie.service";
+import { AuthUser, UserLoginReq, UserRegisterReq } from '../types/user';
+import cookiesService from './cookie.service';
+import request from './baseRequest';
+import axios from 'axios';
 
-const BASE_URL = `${process.env.EXPO_PUBLIC_API_URL}/auth`;
+const BASE_URL = `${process.env.EXPO_PUBLIC_API_URL}/user`;
 
 export interface LoginError {
   response: {
@@ -17,19 +18,19 @@ export class AuthService {
   storeAuthInCookie(user: AuthUser) {
     const { accessToken, ...rest } = user;
 
-    if (accessToken) cookiesService.setCookie("accessToken", accessToken);
-    if (rest) cookiesService.setCookie("userAuth", rest);
+    if (accessToken) cookiesService.setItem('accessToken', accessToken);
+    if (rest) cookiesService.setItem('userAuth', rest);
   }
 
   async login(payload: UserLoginReq) {
     const url = `${BASE_URL}/login`;
     const { data } = await axios.post<AuthUser>(url, payload);
-
     return data;
   }
 
   async register(payload: UserRegisterReq) {
     const url = `${BASE_URL}/register`;
+    console.log({ url, payload });
     const { data } = await axios.post<AuthUser>(url, {
       payload,
     });
@@ -39,15 +40,14 @@ export class AuthService {
 
   async checkSetupPasswordToken(token: string) {
     const url = `${process.env.NEXT_PUBLIC_API_BASEURL}/auth/check-setup-token`;
-    const { data } = await axios.post(url, { token });
+    const { data } = await request.post(url, { token });
     return data;
   }
 
   async logoutUser() {
-    cookiesService.clearAuthCookies();
+    cookiesService.clearAuth();
   }
 }
 
-export const authService = new AuthService();
-
+const authService = new AuthService();
 export default authService;
