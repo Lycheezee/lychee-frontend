@@ -1,12 +1,15 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-import styles from "./styles/dashboard.style";
-import { DashboardHeader } from "./components/dasboard.header";
-import { FormProvider, useForm } from "react-hook-form";
-import { FoodCarousel } from "./components/foodCarousel";
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import styles from './styles/dashboard.style';
+import { DashboardHeader } from './components/dasboard.header';
+import { FormProvider, useForm } from 'react-hook-form';
+import { FoodCarousel } from './components/foodCarousel';
+import authService from '~/services/auth.service';
 
 export const Dashboard = () => {
   const methods = useForm();
+  const user = authService.getUser();
+
   return (
     <FormProvider {...methods}>
       <View style={styles.container}>
@@ -18,7 +21,7 @@ export const Dashboard = () => {
           {/* Featured Item */}
           <View style={styles.featuredContainer}>
             <Image
-              source={{ uri: "https://your-image-link-here.com" }}
+              source={{ uri: 'https://your-image-link-here.com' }}
               style={styles.featuredImage}
             />
             <View style={styles.featuredInfo}>
@@ -35,16 +38,13 @@ export const Dashboard = () => {
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              style={styles.categoryScroll}
-            >
-              {["Noodles", "Seafood", "Desserts", "Vegetable"].map(
-                (cat, idx) => (
-                  <TouchableOpacity key={idx} style={styles.categoryItem}>
-                    {/* You can put icons here */}
-                    <Text style={styles.categoryText}>{cat}</Text>
-                  </TouchableOpacity>
-                )
-              )}
+              style={styles.categoryScroll}>
+              {['Noodles', 'Seafood', 'Desserts', 'Vegetable'].map((cat, idx) => (
+                <TouchableOpacity key={idx} style={styles.categoryItem}>
+                  {/* You can put icons here */}
+                  <Text style={styles.categoryText}>{cat}</Text>
+                </TouchableOpacity>
+              ))}
             </ScrollView>
           </View>
 
@@ -57,7 +57,7 @@ export const Dashboard = () => {
               </TouchableOpacity>
             </View>
             <Image
-              source={{ uri: "https://your-image-link-here.com" }}
+              source={{ uri: 'https://your-image-link-here.com' }}
               style={styles.recommendedImage}
             />
           </View>

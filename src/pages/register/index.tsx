@@ -11,7 +11,7 @@ import { UserRegisterReq } from '../../types/user';
 import authService from '~/services/auth.service';
 import { registerSchema } from './schemas';
 
-export default function RegisterPage() {
+export default function RegisterPage({ onNext }: { onNext?: () => void }) {
   const navigation = useNavigation();
   const [error, setError] = useState<string | null>(null);
   const methods = useForm<UserRegisterReq>({
@@ -29,7 +29,11 @@ export default function RegisterPage() {
     setError(null);
     try {
       await authService.register(data);
-      navigation.navigate(ROUTES.LOGIN as never);
+      if (onNext) {
+        onNext();
+      } else {
+        navigation.navigate(ROUTES.LOGIN as never);
+      }
     } catch (e: any) {
       setError(e?.response?.data?.message || 'Registration failed');
     }

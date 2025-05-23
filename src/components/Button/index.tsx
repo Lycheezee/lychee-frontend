@@ -1,11 +1,11 @@
-import { Button as ReactNativeButton } from "react-native-paper";
-import { ButtonProps } from "./Button.type";
-import { buttonStyle } from "./Button.style";
+import { Button as ReactNativeButton } from 'react-native-paper';
+import { ButtonProps } from './Button.type';
+import { buttonStyle } from './Button.style';
 
-export const Button = ({ label, ...props }: ButtonProps) => {
+export const Button = ({ label, children, ...props }: ButtonProps) => {
   return (
     <ReactNativeButton mode="contained" style={buttonStyle.button} {...props}>
-      {props.children}
+      {label || children}
     </ReactNativeButton>
   );
 };

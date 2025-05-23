@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ROUTES } from '../../constants/routes';
+import cookieService from '~/services/cookie.service';
 
 interface ProtectedRootProps {
   children: React.ReactNode;
@@ -16,12 +16,9 @@ export const ProtectedRoot = ({ children }: ProtectedRootProps) => {
   useEffect(() => {
     const checkAuthToken = async () => {
       try {
-        const authToken = await AsyncStorage.getItem('authToken');
-        if (authToken) {
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
+        const accessToken = await cookieService.getItem('accessToken');
+        console.log('Access Token:', accessToken);
+        setIsAuthenticated(!!accessToken);
       } catch {
         setIsAuthenticated(false);
       } finally {

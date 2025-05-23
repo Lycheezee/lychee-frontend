@@ -26,7 +26,8 @@ class StorageService {
     try {
       const value = await AsyncStorage.getItem(key);
       if (!value) return null;
-      return JSON.parse(value) as CookieKey[K];
+      const auth = JSON.parse(value) as CookieKey[K];
+      return auth;
     } catch (error) {
       console.error(`Failed to read ${key} from storage`, error);
       return null;
@@ -43,7 +44,6 @@ class StorageService {
 
   async clearAuth() {
     await this.removeItem('accessToken');
-    // You can also clear userAuth if needed
     await this.removeItem('userAuth');
   }
 }

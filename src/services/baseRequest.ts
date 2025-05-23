@@ -8,7 +8,7 @@ const request = axios.create({});
 
 request.interceptors.request.use(async (config) => {
   const token = cookieService.getItem('accessToken');
-  console.log('here', token);
+
   if (!token) {
     return Promise.reject(new Error('Invalid token'));
   }
