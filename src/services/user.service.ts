@@ -1,11 +1,11 @@
-import axios from 'axios';
+import request from './baseRequest';
 
 const BASE_URL = `${process.env.EXPO_PUBLIC_API_URL}/user`;
 
 export class UserService {
   async updateUser(payload: any) {
     const url = `${BASE_URL}/update`;
-    const { data } = await axios.post(url, payload);
+    const { data } = await request.put(url, payload);
     return data;
   }
 }

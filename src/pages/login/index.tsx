@@ -28,13 +28,12 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginData) => {
     try {
       await authService.login(data);
-      // Fetch full user profile here if needed
       const user = await authService.getUser();
       if (!user) {
         setError('User data not found after login');
         return;
       }
-      // Only check for firstName/lastName for now
+
       if (!(user as any).firstName || !(user as any).lastName) {
         // @ts-ignore
         navigation.navigate(ROUTES.REGISTER, { step: 2 });
