@@ -7,9 +7,10 @@ const TIMEOUT = 60000;
 const request = axios.create({});
 
 request.interceptors.request.use(async (config) => {
-  const token = cookieService.getItem('accessToken');
+  const token = (await cookieService.getItem('accessToken'))?.token;
 
   if (!token) {
+    console.error('No access token found');
     return Promise.reject(new Error('Invalid token'));
   }
   config.headers.Authorization = `Bearer ${token}`;

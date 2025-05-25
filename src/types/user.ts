@@ -17,11 +17,8 @@ export interface IUser extends Document {
   dietPlan: string;
 }
 
-export interface AuthUser {
+export interface AuthUser extends IUser {
   _id: string;
-  firstName: string;
-  lastName: string;
-  middleName?: string;
   accessToken: Token;
 }
 

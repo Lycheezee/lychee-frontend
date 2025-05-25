@@ -62,7 +62,7 @@ export default function RegisterFlow() {
 
   const handleNext = async (data?: any) => {
     if (step === 3) {
-      await clearProgress(); // Clear progress when registration is complete
+      await clearProgress();
       navigation.navigate(ROUTES.DASHBOARD as never);
       return;
     }
@@ -71,8 +71,10 @@ export default function RegisterFlow() {
     await saveProgress(nextStep, data);
     setStep(nextStep);
   };
+
   if (step === 1) return <RegisterPage onNext={handleNext} />;
   if (step === 2) return <RegisterStep2 onNext={handleNext} defaultValues={formData} />;
   if (step === 3) return <RegisterStep3 onNext={handleNext} defaultValues={formData} />;
+
   return null;
 }

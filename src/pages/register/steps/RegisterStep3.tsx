@@ -1,12 +1,13 @@
 import { View, Text } from 'react-native';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { InputField } from '../../../components/InputField';
+import { NumberInputField } from '../../../components/NumberInputField';
 import { SelectField } from '../../../components/SelectField';
 import { Button } from '../../../components/Button';
 import { bodyInfoSchema } from '../schemas/steps.schema';
 import userService from '~/services/user.service';
 import { exerciseRateOptions, macroPreferenceOptions } from '~/constants/user.constants';
+import { Provider } from 'react-native-paper';
 
 export interface BodyInfoReq {
   weight?: number;
@@ -40,35 +41,42 @@ export function RegisterStep3({
 
   return (
     <FormProvider {...methods}>
-      {' '}
-      <View style={{ padding: 16 }}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16 }}>Body Information</Text>
-        <InputField
-          name="weight"
-          label="Weight (kg)"
-          keyboardType="numeric"
-          placeholder="Enter your weight in kg"
-        />
-        <InputField
-          name="height"
-          label="Height (cm)"
-          keyboardType="numeric"
-          placeholder="Enter your height in cm"
-        />
-        <SelectField
-          name="exerciseRate"
-          label="Exercise Rate"
-          options={exerciseRateOptions}
-          placeholder="Select exercise frequency"
-        />
-        <SelectField
-          name="macro_preference"
-          label="Macro Preference (optional)"
-          options={macroPreferenceOptions}
-          placeholder="Select macro preference"
-        />
-        <Button onPress={handleSubmit(onSubmit)}>Finish</Button>
-      </View>
+      <Provider>
+        <View style={{ padding: 16 }}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16 }}>
+            Body Information
+          </Text>
+          <NumberInputField
+            name="weight"
+            label="Weight (kg)"
+            placeholder="Enter your weight in kg"
+            min={20}
+            max={200}
+            allowDecimals={false}
+          />
+          <NumberInputField
+            name="height"
+            label="Height (cm)"
+            placeholder="Enter your height in cm"
+            min={50}
+            max={200}
+            allowDecimals={false}
+          />
+          <SelectField
+            name="exerciseRate"
+            label="Exercise Rate"
+            options={exerciseRateOptions}
+            placeholder="Select exercise frequency"
+          />
+          <SelectField
+            name="macro_preference"
+            label="Macro Preference (optional)"
+            options={macroPreferenceOptions}
+            placeholder="Select macro preference"
+          />
+          <Button onPress={handleSubmit(onSubmit)}>Finish</Button>
+        </View>
+      </Provider>
     </FormProvider>
   );
 }

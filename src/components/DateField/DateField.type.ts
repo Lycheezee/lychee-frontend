@@ -1,4 +1,5 @@
 import { ComponentProps } from 'react';
+import { TextInput } from 'react-native-paper';
 
 export type DateFieldProps = {
   name?: string;
@@ -6,4 +7,4 @@ export type DateFieldProps = {
   placeholder?: string;
   maximumDate?: Date;
   minimumDate?: Date;
-} & ComponentProps<any>;
+} & Omit<ComponentProps<typeof TextInput>, 'value' | 'onChangeText' | 'onBlur'>;

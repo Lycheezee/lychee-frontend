@@ -11,6 +11,7 @@ import { Button } from '../../components/Button';
 import { ROUTES } from '../../constants/routes';
 import { loginSchema } from './schemas/login.schema';
 import authService from '~/services/auth.service';
+import { Provider } from 'react-native-paper';
 
 export default function LoginPage() {
   const navigation = useNavigation();
@@ -34,11 +35,18 @@ export default function LoginPage() {
         return;
       }
 
-      if (!(user as any).firstName || !(user as any).lastName) {
+      if (!user.firstName || !user.lastName) {
         // @ts-ignore
         navigation.navigate(ROUTES.REGISTER, { step: 2 });
         return;
       }
+
+      if (!user.bodyInfo) {
+        // @ts-ignore
+        navigation.navigate(ROUTES.REGISTER, { step: 3 });
+        return;
+      }
+
       navigation.navigate(ROUTES.DASHBOARD as never);
     } catch (e: any) {
       setError(e?.response?.data?.message || 'Login failed');
@@ -47,16 +55,18 @@ export default function LoginPage() {
 
   return (
     <FormProvider {...methods}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-        <InputField name="email" label="Email" />
-        <InputField name="password" label="Password" secureTextEntry />
-        {error && <Text style={{ color: 'red', marginBottom: 8, fontSize: 12 }}>{error}</Text>}
-        <Button onPress={handleSubmit(onSubmit)}>Login</Button>
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.REGISTER as never)}>
-          <Text style={styles.switchText}>Don&apos;t have an account? Register</Text>
-        </TouchableOpacity>
-      </View>
+      <Provider>
+        <View style={styles.container}>
+          <Text style={styles.title}>Login</Text>
+          <InputField name="email" label="Email" />
+          <InputField name="password" label="Password" secureTextEntry />
+          {error && <Text style={{ color: 'red', marginBottom: 8, fontSize: 12 }}>{error}</Text>}
+          <Button onPress={handleSubmit(onSubmit)}>Login</Button>
+          <TouchableOpacity onPress={() => navigation.navigate(ROUTES.REGISTER as never)}>
+            <Text style={styles.switchText}>Don&apos;t have an account? Register</Text>
+          </TouchableOpacity>
+        </View>
+      </Provider>
     </FormProvider>
   );
 }

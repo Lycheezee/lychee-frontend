@@ -28,7 +28,7 @@ export const SelectField = ({
       name={name}
       render={({ field: { onChange, value } }) => (
         <View style={styles.dropdown}>
-          <Provider>
+          <>
             <Menu
               visible={visible}
               onDismiss={closeMenu}
@@ -54,7 +54,7 @@ export const SelectField = ({
                 />
               ))}
             </Menu>
-          </Provider>
+          </>
           {errors[name] && <Text style={styles.errorText}>{errors[name]?.message as string}</Text>}
         </View>
       )}
