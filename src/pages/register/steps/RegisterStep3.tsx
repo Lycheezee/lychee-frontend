@@ -35,7 +35,7 @@ export function RegisterStep3({
       onNext(data);
     } catch (err) {
       console.error('Error updating body info:', err);
-      onNext(data);
+      // onNext(data);
     }
   };
 

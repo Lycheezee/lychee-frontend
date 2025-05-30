@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RegisterPage from './index';
 import { RegisterStep2 } from './steps/RegisterStep2';
 import { RegisterStep3 } from './steps/RegisterStep3';
+import { RegisterStep4 } from './steps/RegisterStep4';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ROUTES } from '../../constants/routes';
 
@@ -59,9 +60,8 @@ export default function RegisterFlow() {
       console.error('Failed to save registration progress:', error);
     }
   };
-
   const handleNext = async (data?: any) => {
-    if (step === 3) {
+    if (step === 4) {
       await clearProgress();
       navigation.navigate(ROUTES.DASHBOARD as never);
       return;
@@ -75,6 +75,7 @@ export default function RegisterFlow() {
   if (step === 1) return <RegisterPage onNext={handleNext} />;
   if (step === 2) return <RegisterStep2 onNext={handleNext} defaultValues={formData} />;
   if (step === 3) return <RegisterStep3 onNext={handleNext} defaultValues={formData} />;
+  if (step === 4) return <RegisterStep4 onNext={handleNext} defaultValues={formData} />;
 
   return null;
 }

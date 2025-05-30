@@ -3,6 +3,8 @@ export const ROUTES = {
   REGISTER: 'Register',
   DASHBOARD: 'Dashboard',
   HOME: 'Home',
-  MEAL_PLANS: 'MealPlans',
+  FOOD: 'Food',
+  FOOD_HISTORY: 'FoodHistory',
+  FOOD_COLLECTION: 'FoodCollection',
   USER_PROFILE: 'UserProfile',
 };

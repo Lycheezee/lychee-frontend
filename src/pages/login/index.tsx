@@ -39,11 +39,16 @@ export default function LoginPage() {
         // @ts-ignore
         return navigation.navigate(ROUTES.REGISTER, { step: 2 });
       }
-
       if (!user.bodyInfo) {
         // @ts-ignore
         return navigation.navigate(ROUTES.REGISTER, { step: 3 });
       }
+
+      if (!user.mealPreferences) {
+        // @ts-ignore
+        return navigation.navigate(ROUTES.REGISTER, { step: 4 });
+      }
+
       // @ts-ignore
       navigation.navigate(ROUTES.DASHBOARD, { screen: ROUTES.HOME });
     } catch (e: any) {

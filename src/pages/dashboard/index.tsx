@@ -43,7 +43,7 @@ export const Dashboard = () => {
           {/* Welcome Message */}
           <View style={styles.welcomeContainer}>
             <Text style={styles.welcomeText}>
-              welcome back, <Text style={styles.usernameText}>{userInfo.firstName}</Text>
+              Welcome back, <Text style={styles.usernameText}>{userInfo.firstName}</Text>
             </Text>
           </View>
 

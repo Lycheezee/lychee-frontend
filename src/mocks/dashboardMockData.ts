@@ -42,4 +42,7 @@ export const mockDailyProgress: MealPlan = {
 export const mockUser = {
   firstName: 'User',
   lastName: 'Name',
+  mealPreferences: {
+    mealPlanDays: 7, // Default one-week meal plan
+  },
 };

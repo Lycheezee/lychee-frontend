@@ -1,5 +1,13 @@
 import * as Yup from 'yup';
 
+export const mealPreferencesSchema = Yup.object({
+  mealPlanDays: Yup.number()
+    .min(1, 'Your meal plan must cover at least 1 day')
+    .max(30, 'Maximum meal plan duration allowed is 30 days')
+    .required('Number of days for your meal plan is required')
+    .integer('Number of days must be a whole number'),
+});
+
 export const userInfoSchema = Yup.object({
   firstName: Yup.string()
     .min(2, 'First name must be at least 2 characters')
