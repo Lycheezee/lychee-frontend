@@ -20,8 +20,8 @@ export class AuthService {
     if (rest) cookiesService.setItem('userAuth', rest);
   }
 
-  getUser() {
-    const user = cookiesService.getItem('userAuth');
+  async getUser() {
+    const user = await cookiesService.getItem('userAuth');
     return user;
   }
 
@@ -37,6 +37,7 @@ export class AuthService {
     const { data } = await axios.post<AuthUser>(url, {
       payload,
     });
+    this.storeAuthInCookie(data);
     return data;
   }
 

@@ -12,6 +12,7 @@ import { ROUTES } from '../../constants/routes';
 import { loginSchema } from './schemas/login.schema';
 import authService from '~/services/auth.service';
 import { Provider } from 'react-native-paper';
+import { clearProgress } from '../register/RegisterFlow';
 
 export default function LoginPage() {
   const navigation = useNavigation();
@@ -31,26 +32,28 @@ export default function LoginPage() {
       await authService.login(data);
       const user = await authService.getUser();
       if (!user) {
-        setError('User data not found after login');
-        return;
+        return setError('User data not found after login');
       }
 
       if (!user.firstName || !user.lastName) {
         // @ts-ignore
-        navigation.navigate(ROUTES.REGISTER, { step: 2 });
-        return;
+        return navigation.navigate(ROUTES.REGISTER, { step: 2 });
       }
 
       if (!user.bodyInfo) {
         // @ts-ignore
-        navigation.navigate(ROUTES.REGISTER, { step: 3 });
-        return;
+        return navigation.navigate(ROUTES.REGISTER, { step: 3 });
       }
-
-      navigation.navigate(ROUTES.DASHBOARD as never);
+      // @ts-ignore
+      navigation.navigate(ROUTES.DASHBOARD, { screen: ROUTES.HOME });
     } catch (e: any) {
       setError(e?.response?.data?.message || 'Login failed');
     }
+  };
+
+  const handleNavigateToRegister = async () => {
+    await clearProgress();
+    navigation.navigate(ROUTES.REGISTER as never);
   };
 
   return (
@@ -62,7 +65,7 @@ export default function LoginPage() {
           <InputField name="password" label="Password" secureTextEntry />
           {error && <Text style={{ color: 'red', marginBottom: 8, fontSize: 12 }}>{error}</Text>}
           <Button onPress={handleSubmit(onSubmit)}>Login</Button>
-          <TouchableOpacity onPress={() => navigation.navigate(ROUTES.REGISTER as never)}>
+          <TouchableOpacity onPress={handleNavigateToRegister}>
             <Text style={styles.switchText}>Don&apos;t have an account? Register</Text>
           </TouchableOpacity>
         </View>

@@ -35,6 +35,7 @@ export default function RegisterPage({ onNext }: { onNext?: () => void }) {
         navigation.navigate(ROUTES.LOGIN as never);
       }
     } catch (e: any) {
+      console.log('Registration error:', e);
       setError(e?.response?.data?.message || 'Registration failed');
     }
   };

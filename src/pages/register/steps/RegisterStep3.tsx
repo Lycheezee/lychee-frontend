@@ -30,7 +30,7 @@ export function RegisterStep3({
   const { handleSubmit } = methods;
   const onSubmit = async (data: BodyInfoReq) => {
     try {
-      const user = await userService.updateUser(data);
+      const user = await userService.updateUser({ bodyInfo: data }, { isFirstTimeSetup: true });
       if (!user) return;
       onNext(data);
     } catch (err) {

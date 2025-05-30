@@ -1,75 +1,95 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import styles from './styles/dashboard.style';
-import { DashboardHeader } from './components/dasboard.header';
+import { View, Text, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import { FormProvider, useForm } from 'react-hook-form';
-import { FoodCarousel } from './components/foodCarousel';
+import { useState, useEffect } from 'react';
 import authService from '~/services/auth.service';
+import { BottomNav } from '../../components/BottomNav';
+import { MealProgress } from './components/MealProgress';
+import { NutrientCard } from './components/NutrientCard';
+import { mockDailyProgress, mockUser } from '../../mocks/dashboardMockData';
+import styles from './styles/dashboard.style';
 
 export const Dashboard = () => {
   const methods = useForm();
-  const user = authService.getUser();
+  const [userInfo, setUserInfo] = useState(mockUser);
+  const dailyProgress = mockDailyProgress;
+
+  // Fetch user data on component mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = await authService.getUser();
+        if (userData) {
+          setUserInfo(userData);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return (
     <FormProvider {...methods}>
-      <View style={styles.container}>
-        <View>
-          <DashboardHeader />
+      <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        {/* Main content */}
+        <ScrollView style={styles.scrollContent} showsVerticalScrollIndicator={false}>
+          {/* Home Header */}
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Home</Text>
+          </View>
 
-          <FoodCarousel />
+          {/* Welcome Message */}
+          <View style={styles.welcomeContainer}>
+            <Text style={styles.welcomeText}>
+              welcome back, <Text style={styles.usernameText}>{userInfo.firstName}</Text>
+            </Text>
+          </View>
 
-          {/* Featured Item */}
-          <View style={styles.featuredContainer}>
-            <Image
-              source={{ uri: 'https://your-image-link-here.com' }}
-              style={styles.featuredImage}
-            />
-            <View style={styles.featuredInfo}>
-              <Text style={styles.foodTitle}>Thai prawn & ginger noodles</Text>
-              <TouchableOpacity style={styles.heartButton}>
-                <Icon name="heart" size={20} color="#fff" />
-              </TouchableOpacity>
+          {/* Daily Target Meals */}
+          <MealProgress dailyProgress={dailyProgress} />
+
+          {/* Nutrition Statistics */}
+          <View style={styles.nutrientsContainer}>
+            <View style={styles.nutrientRow}>
+              <NutrientCard
+                label="Calories"
+                value={2000} // Using value from mockup
+              />
+              <NutrientCard
+                label="Carbs"
+                value={20} // Using value from mockup
+              />
+            </View>
+
+            <View style={styles.nutrientRow}>
+              <NutrientCard
+                label="Fats"
+                value={20} // Using value from mockup
+              />
+              <NutrientCard
+                label="Sugars"
+                value={5} // Using value from mockup
+              />
+            </View>
+
+            <View style={styles.nutrientRow}>
+              <NutrientCard
+                label="Protein"
+                value={200} // Using value from mockup
+              />
+              <NutrientCard
+                label="Cholesterol"
+                value={20} // Using value from mockup
+              />
             </View>
           </View>
+        </ScrollView>
 
-          {/* Categories */}
-          <View style={styles.categorySection}>
-            <Text style={styles.sectionTitle}>Category</Text>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.categoryScroll}>
-              {['Noodles', 'Seafood', 'Desserts', 'Vegetable'].map((cat, idx) => (
-                <TouchableOpacity key={idx} style={styles.categoryItem}>
-                  {/* You can put icons here */}
-                  <Text style={styles.categoryText}>{cat}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-
-          {/* Recommended */}
-          <View style={styles.recommendedSection}>
-            <View style={styles.recommendedHeader}>
-              <Text style={styles.sectionTitle}>Recommended</Text>
-              <TouchableOpacity>
-                <Text style={styles.seeAll}>See all</Text>
-              </TouchableOpacity>
-            </View>
-            <Image
-              source={{ uri: 'https://your-image-link-here.com' }}
-              style={styles.recommendedImage}
-            />
-          </View>
-        </View>
-
-        {/* Bottom Navigation (Placeholder) */}
-        <View style={styles.bottomNav}>
-          <Icon name="home" size={28} color="#00cba9" />
-          <Icon name="heart-outline" size={28} color="#aaa" />
-          <Icon name="person-outline" size={28} color="#aaa" />
-        </View>
-      </View>
+        {/* Bottom Navigation */}
+        <BottomNav active="Home" />
+      </SafeAreaView>
     </FormProvider>
   );
 };

@@ -6,17 +6,14 @@ import { SelectField } from '../../../components/SelectField';
 import { DateField } from '../../../components/DateField';
 import { Button } from '../../../components/Button';
 import { userInfoSchema } from '../schemas/steps.schema';
-import userService from '~/services/user.service';
+import userService, { UserUpdatePayload } from '~/services/user.service';
 import { genderOptions } from '~/constants/user.constants';
 import { Provider } from 'react-native-paper';
 
-export interface UserInfoReq {
-  firstName?: string;
-  middleName?: string;
-  lastName?: string;
-  gender?: string;
-  dob?: string;
-}
+export type UserInfoReq = Pick<
+  UserUpdatePayload,
+  'firstName' | 'middleName' | 'lastName' | 'gender' | 'dob'
+>;
 
 export function RegisterStep2({
   onNext,

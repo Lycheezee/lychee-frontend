@@ -17,7 +17,6 @@ export const ProtectedRoot = ({ children }: ProtectedRootProps) => {
     const checkAuthToken = async () => {
       try {
         const accessToken = await cookieService.getItem('accessToken');
-        console.log('Access Token:', accessToken);
         setIsAuthenticated(!!accessToken);
       } catch {
         setIsAuthenticated(false);

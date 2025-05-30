@@ -6,6 +6,7 @@ export type Nutrition = {
   fibers: number;
   sodium: number;
   cholesterol: number;
+  carbohydrates: number;
   waterIntake: number;
 };
 

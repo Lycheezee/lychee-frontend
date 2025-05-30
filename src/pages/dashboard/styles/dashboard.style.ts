@@ -1,113 +1,78 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from 'react-native';
 
 const dashboardStyles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "100%",
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
+    height: '100%',
+    backgroundColor: '#f8f8f8',
+  },
+  scrollContent: {
+    flex: 1,
+    paddingBottom: 20,
   },
   header: {
-    backgroundColor: "#00cba9",
+    backgroundColor: 'white',
     paddingHorizontal: 20,
-    paddingVertical: 20,
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
-  greeting: {
+  headerTitle: {
     fontSize: 24,
-    fontWeight: "bold",
-    color: "#fff",
+    fontWeight: 'bold',
+    color: '#333',
   },
-  subGreeting: {
-    fontSize: 16,
-    color: "#e0f7f5",
-    marginTop: 4,
+  welcomeContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 8,
   },
-  searchIcon: {},
-  featuredContainer: {
-    marginTop: -40,
-    alignItems: "center",
+  welcomeText: {
+    fontSize: 18,
+    color: '#333',
   },
-  featuredImage: {
-    width: "90%",
-    height: 200,
-    borderRadius: 15,
+  usernameText: {
+    fontWeight: 'bold',
   },
-  featuredInfo: {
-    position: "absolute",
-    bottom: 20,
-    left: 30,
-    right: 30,
-    backgroundColor: "white",
-    borderRadius: 12,
-    padding: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    elevation: 5,
-  },
-  foodTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  heartButton: {
-    backgroundColor: "#00cba9",
-    padding: 8,
+  mealProgressContainer: {
+    marginHorizontal: 20,
+    backgroundColor: 'white',
     borderRadius: 20,
+    padding: 16,
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
-  categorySection: {
-    marginTop: 20,
-    paddingHorizontal: 20,
+  mealProgressTitle: {
+    fontSize: 18,
+    fontWeight: '500',
+    marginBottom: 16,
   },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  categoryScroll: {
+  nutrientsContainer: {
+    paddingHorizontal: 16,
     marginTop: 10,
+    marginBottom: 20,
   },
-  categoryItem: {
-    backgroundColor: "#f2f2f2",
-    marginRight: 10,
-    padding: 15,
-    borderRadius: 15,
-  },
-  categoryText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#555",
-  },
-  recommendedSection: {
-    marginTop: 20,
-    paddingHorizontal: 20,
-  },
-  recommendedHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  seeAll: {
-    color: "#00cba9",
-    fontSize: 14,
-  },
-  recommendedImage: {
-    width: "100%",
-    height: 180,
-    borderRadius: 15,
-    marginTop: 10,
+  nutrientRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 5,
   },
   bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 12,
     borderTopWidth: 1,
-    borderColor: "#ddd",
-    marginTop: 10,
+    borderColor: '#ddd',
+    backgroundColor: 'white',
   },
 });
 

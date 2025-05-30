@@ -6,6 +6,15 @@ import { RegisterStep3 } from './steps/RegisterStep3';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ROUTES } from '../../constants/routes';
 
+export const clearProgress = async () => {
+  try {
+    await AsyncStorage.removeItem('registration_step');
+    await AsyncStorage.removeItem('registration_data');
+  } catch (error) {
+    console.error('Failed to clear registration progress:', error);
+  }
+};
+
 export default function RegisterFlow() {
   const navigation = useNavigation();
   const route = useRoute();
@@ -30,7 +39,7 @@ export default function RegisterFlow() {
             setFormData(JSON.parse(savedData));
           }
         } catch {
-          console.log('No saved registration progress found');
+          console.error('No saved registration progress found');
         }
       }
     };
@@ -48,15 +57,6 @@ export default function RegisterFlow() {
       }
     } catch (error) {
       console.error('Failed to save registration progress:', error);
-    }
-  };
-
-  const clearProgress = async () => {
-    try {
-      await AsyncStorage.removeItem('registration_step');
-      await AsyncStorage.removeItem('registration_data');
-    } catch (error) {
-      console.error('Failed to clear registration progress:', error);
     }
   };
 
