@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputField } from '../../../components/InputField';
@@ -9,6 +9,7 @@ import { userInfoSchema } from '../schemas/steps.schema';
 import userService, { UserUpdatePayload } from '~/services/user.service';
 import { genderOptions } from '~/constants/user.constants';
 import { Provider } from 'react-native-paper';
+import { RegisterLayout } from '../components/RegisterLayout';
 
 export type UserInfoReq = Pick<
   UserUpdatePayload,
@@ -42,23 +43,48 @@ export function RegisterStep2({
   return (
     <FormProvider {...methods}>
       <Provider>
-        <View style={{ padding: 16 }}>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16 }}>
-            User Information
-          </Text>
-          <InputField name="firstName" label="First Name" />
-          <InputField name="middleName" label="Middle Name (optional)" />
-          <InputField name="lastName" label="Last Name" />
-          <SelectField
-            name="gender"
-            label="Gender"
-            options={genderOptions}
-            placeholder="Select gender"
-          />
-          <DateField name="dob" label="Date of Birth" placeholder="Select your birth date" />
-          <Button onPress={handleSubmit(onSubmit)}>Next</Button>
-        </View>
+        <RegisterLayout title="User Information">
+          <View style={styles.form}>
+            <InputField name="firstName" label="First Name" placeholder="Enter your first name" />
+            <InputField
+              name="middleName"
+              label="Middle Name"
+              placeholder="Enter your middle name (optional)"
+            />
+            <InputField name="lastName" label="Last Name" placeholder="Enter your last name" />
+            <View style={styles.row}>
+              <View style={styles.genderField}>
+                <SelectField
+                  name="gender"
+                  label="Gender"
+                  options={genderOptions}
+                  placeholder="Select gender"
+                />
+              </View>
+              <View style={styles.dateField}>
+                <DateField name="dob" label="Date of Birth" placeholder="Select your birth date" />
+              </View>
+            </View>
+            <Button onPress={handleSubmit(onSubmit)}>Next</Button>
+          </View>
+        </RegisterLayout>
       </Provider>
     </FormProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  form: {
+    gap: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  genderField: {
+    flex: 1,
+  },
+  dateField: {
+    flex: 2,
+  },
+});

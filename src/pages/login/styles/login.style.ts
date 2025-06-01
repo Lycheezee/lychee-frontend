@@ -1,30 +1,33 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    padding: 20,
+    padding: 24,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 32,
+    color: '#333',
   },
-  input: {
-    marginBottom: 10,
-  },
-  button: {
-    marginTop: 10,
-  },
-  switchText: {
-    textAlign: "center",
-    marginTop: 15,
-    color: "blue",
+  formContainer: {
+    width: '100%',
+    gap: 16,
   },
   errorText: {
-    color: "red",
-    marginBottom: 5,
+    color: '#ff3b30',
+    fontSize: 14,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  switchText: {
+    color: '#007AFF',
+    textAlign: 'center',
+    marginTop: 16,
+    fontSize: 16,
   },
 });
