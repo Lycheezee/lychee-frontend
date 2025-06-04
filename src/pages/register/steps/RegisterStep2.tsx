@@ -10,6 +10,7 @@ import userService, { UserUpdatePayload } from '~/services/user.service';
 import { genderOptions } from '~/constants/user.constants';
 import { Provider } from 'react-native-paper';
 import { RegisterLayout } from '../components/RegisterLayout';
+import { IUser } from '~/types/user';
 
 export type UserInfoReq = Pick<
   UserUpdatePayload,
@@ -18,12 +19,14 @@ export type UserInfoReq = Pick<
 
 export function RegisterStep2({
   onNext,
+  onBack,
   defaultValues,
 }: {
-  onNext: (data?: any) => void;
-  defaultValues?: any;
+  onNext: (data?: Partial<IUser>) => void;
+  onBack: () => void;
+  defaultValues?: any; // Keep as any to avoid form schema conflicts
 }) {
-  const methods = useForm({
+  const methods = useForm<any>({
     defaultValues,
     resolver: yupResolver(userInfoSchema),
   });
@@ -36,14 +39,13 @@ export function RegisterStep2({
       onNext(data);
     } catch (err) {
       console.error('Error updating user info:', err);
-      onNext(data);
     }
   };
 
   return (
     <FormProvider {...methods}>
       <Provider>
-        <RegisterLayout title="User Information">
+        <RegisterLayout title="User Information" onBack={onBack}>
           <View style={styles.form}>
             <InputField name="firstName" label="First Name" placeholder="Enter your first name" />
             <InputField

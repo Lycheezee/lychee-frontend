@@ -18,3 +18,9 @@ export interface MealPlan {
   percentageOfCompletions: number;
   nutritionSummary: Nutrition;
 }
+
+export interface DietPlan {
+  id: string;
+  nutritionsPerDay: Nutrition;
+  plan: MealPlan[];
+}

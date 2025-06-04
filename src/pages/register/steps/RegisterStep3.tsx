@@ -9,6 +9,7 @@ import userService from '~/services/user.service';
 import { exerciseRateOptions, macroPreferenceOptions } from '~/constants/user.constants';
 import { Provider } from 'react-native-paper';
 import { RegisterLayout } from '../components/RegisterLayout';
+import { IUser } from '~/types/user';
 
 export interface BodyInfoReq {
   weight?: number;
@@ -19,31 +20,37 @@ export interface BodyInfoReq {
 
 export function RegisterStep3({
   onNext,
+  onBack,
   defaultValues,
 }: {
-  onNext: (data?: any) => void;
-  defaultValues?: any;
+  onNext: (data?: Partial<IUser>) => void;
+  onBack: () => void;
+  defaultValues?: any; // Keep as any to avoid form schema conflicts
 }) {
-  const methods = useForm({
+  const methods = useForm<any>({
     defaultValues,
     resolver: yupResolver(bodyInfoSchema),
   });
   const { handleSubmit } = methods;
   const onSubmit = async (data: BodyInfoReq) => {
     try {
-      const user = await userService.updateUser({ bodyInfo: data }, { isFirstTimeSetup: true });
-      if (!user) return;
-      onNext(data);
+      const response = await userService.updateUser({ bodyInfo: data }, { type: 'bodyInfo' });
+
+      if (!response) return;
+      console.log();
+      onNext({
+        ...data,
+        dietPlan: response.dietPlan,
+      });
     } catch (err) {
       console.error('Error updating body info:', err);
-      onNext(data);
     }
   };
 
   return (
     <FormProvider {...methods}>
       <Provider>
-        <RegisterLayout title="Body Information">
+        <RegisterLayout title="Body Information" onBack={onBack}>
           <View style={styles.form}>
             <View style={styles.row}>
               <View style={styles.field}>

@@ -25,7 +25,6 @@ export const BottomNav: React.FC<BottomNavProps> = ({ active }) => {
           key={item.route}
           style={styles.button}
           onPress={() => navigation.navigate(item.route)}>
-          {' '}
           <Icon
             name={
               item.route === 'Home'

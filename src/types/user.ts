@@ -1,5 +1,7 @@
 import { ExerciseRate } from '../constants/user.constants';
 import { Token } from '../services/cookie.service';
+import { DietPlan } from './meal';
+import { Nutrition } from './nutritions';
 
 interface BodyInfo {
   weight: number;
@@ -18,7 +20,7 @@ export interface IUser extends Document {
   lastName: string;
   middleName?: string;
   bodyInfo: BodyInfo;
-  dietPlan: string;
+  dietPlan: DietPlan;
   mealPreferences?: MealPreferences;
 }
 

@@ -8,6 +8,7 @@ import { registerSchema } from './schemas/steps.schema';
 import authService from '~/services/auth.service';
 import { Provider } from 'react-native-paper';
 import { RegisterLayout } from './components/RegisterLayout';
+import { IUser } from '~/types/user';
 
 export interface RegisterReq {
   email: string;
@@ -15,7 +16,7 @@ export interface RegisterReq {
   confirmPassword: string;
 }
 
-export default function RegisterPage({ onNext }: { onNext: (data?: any) => void }) {
+export default function RegisterPage({ onNext }: { onNext: (data?: Partial<IUser>) => void }) {
   const [error, setError] = useState<string | null>(null);
   const methods = useForm<RegisterReq>({
     resolver: yupResolver(registerSchema),

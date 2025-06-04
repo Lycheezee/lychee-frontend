@@ -14,13 +14,12 @@ export interface UserUpdatePayload {
 }
 
 export interface UserUpdateParams {
-  isFirstTimeSetup?: boolean;
+  type: 'userInfo' | 'bodyInfo' | 'mealLength';
 }
 
 export class UserService {
   async updateUser(payload: UserUpdatePayload, params?: UserUpdateParams): Promise<IUser> {
     const url = `${BASE_URL}/update`;
-    console.log({ payload });
     const { data } = await request.put(url, { ...payload, dateOfBirth: payload.dob }, { params });
     return data;
   }

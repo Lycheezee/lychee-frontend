@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  dropdown: {
-    marginBottom: 16,
+  input: {
+    marginBottom: 8,
   },
   errorText: {
-    color: 'red',
+    color: '#ff3b30',
     marginBottom: 8,
     fontSize: 12,
   },
