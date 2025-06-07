@@ -1,5 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import { SafeAreaWrapper } from '../../../components/SafeAreaWrapper';
 import { RegisterHeader } from './RegisterHeader';
 import { RegisterFooter } from './RegisterFooter';
 
@@ -19,14 +20,16 @@ export function RegisterLayout({
   showBackButton = true,
 }: RegisterLayoutProps) {
   return (
-    <View style={styles.container}>
-      {showBackButton && (
-        <IconButton icon="arrow-left" size={24} style={styles.backButton} onPress={onBack} />
-      )}
-      <RegisterHeader title={title} />
-      <View style={styles.content}>{children}</View>
-      {showFooter && <RegisterFooter />}
-    </View>
+    <SafeAreaWrapper>
+      <View style={styles.container}>
+        {showBackButton && (
+          <IconButton icon="arrow-left" size={24} style={styles.backButton} onPress={onBack} />
+        )}
+        <RegisterHeader title={title} />
+        <View style={styles.content}>{children}</View>
+        {showFooter && <RegisterFooter />}
+      </View>
+    </SafeAreaWrapper>
   );
 }
 
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 10,
-    top: 10,
+    top: 25,
     zIndex: 1,
   },
 });

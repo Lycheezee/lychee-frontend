@@ -10,7 +10,7 @@ export interface UserUpdatePayload {
   gender?: string;
   dob?: string;
   bodyInfo?: { weight?: number; height?: number; exerciseRate?: string; macro_preference?: string };
-  mealPreferences?: { mealPlanDays?: number };
+  mealPlanDays?: number;
 }
 
 export interface UserUpdateParams {

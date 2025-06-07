@@ -1,10 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Provider } from 'react-native-paper';
+import { useState, useEffect } from 'react';
 import { RegisterLayout } from '../components/RegisterLayout';
 import { Button } from '../../../components/Button';
 import { Nutrition } from '../../../types/nutritions';
-import { IUser } from '../../../types/user';
+import { IUser, AuthUser } from '../../../types/user';
 import { createNutritionLabel } from '../../../utils/nutritionFormatter';
+import { DietPlan } from '~/types/meal';
+import authService from '~/services/auth.service';
 
 // Interface for registration data that includes API response fields
 interface RegistrationData {
@@ -18,7 +21,7 @@ interface RegistrationData {
 
   // Additional API response fields
   nutritionsPerDay?: Nutrition;
-  dietPlan?: any[]; // Array from API response
+  dietPlan?: DietPlan; // Array from API response
 }
 
 interface MealItemProps {
@@ -40,22 +43,51 @@ export function RegisterMealIntro({
   onBack: () => void;
   defaultValues?: RegistrationData;
 }) {
-  // Get data from previous step (RegisterStep3)
-  const dietPlan = defaultValues?.dietPlan || [];
-  const nutritionsPerDay = defaultValues?.nutritionsPerDay;
+  const [user, setUser] = useState<Omit<AuthUser, 'accessToken'> | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch user data on component mount
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await authService.getUser();
+        setUser(userData);
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  // Show loading state while fetching user data
+  if (loading) {
+    return (
+      <Provider>
+        <RegisterLayout title="Your First Meal" onBack={onBack}>
+          <View style={styles.container}>
+            <Text style={styles.subtitle}>Loading your meal plan...</Text>
+          </View>
+        </RegisterLayout>
+      </Provider>
+    );
+  }
+
+  // Get data from previous step (RegisterStep3) or from user's diet plan
+  const firstMeals =
+    defaultValues?.dietPlan?.plan?.[0]?.meals || user?.dietPlan?.plan?.[0]?.meals || [];
+  const nutritionsPerDay =
+    defaultValues?.dietPlan?.nutritionsPerDay || user?.dietPlan?.nutritionsPerDay;
 
   // Extract meal names from diet plan with better handling for different structures
-  const mealNames =
-    dietPlan.length > 0
-      ? dietPlan.map((meal: any) => {
-          // Handle different possible meal object structures
-          if (typeof meal === 'string') return meal;
-          if (meal.name) return meal.name;
-          if (meal.title) return meal.title;
-          if (meal.food_name) return meal.food_name;
-          return 'Unknown Meal';
-        })
-      : ['Eggs', 'Coconut', 'Water', 'Potatoes', 'Beef', 'Rice']; // Fallback data
+  const mealNames = firstMeals
+    ? firstMeals.map((meal) => {
+        if (meal.name) return meal.name;
+        return 'Unknown Meal';
+      })
+    : ['Eggs', 'Coconut', 'Water', 'Potatoes', 'Beef', 'Rice']; // Fallback data
 
   // Use real nutrition data if available, otherwise use sample data
   const nutritionData: Nutrition = nutritionsPerDay
@@ -99,7 +131,7 @@ export function RegisterMealIntro({
         <View style={styles.container}>
           <View style={styles.mealBox}>
             <Text style={styles.subtitle}>
-              {dietPlan.length > 0
+              {firstMeals.length > 0
                 ? 'Your personalized meal plan includes:'
                 : 'Sample meals include:'}
             </Text>
@@ -152,27 +184,26 @@ const styles = StyleSheet.create({
   mealItem: {
     fontSize: 16,
     marginRight: 12,
+    fontWeight: 'bold',
   },
   includesText: {
     fontSize: 16,
     marginBottom: 8,
   },
   nutritionGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     gap: 12,
     marginBottom: 20,
   },
   nutritionItem: {
     backgroundColor: '#FFC0CB',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 8,
-    width: '48%',
+    width: '100%',
   },
   nutritionLabel: {
     fontSize: 16,
-    textAlign: 'center',
+    // textAlign: 'center',
   },
 });

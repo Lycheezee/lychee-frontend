@@ -1,17 +1,12 @@
 import { ExerciseRate } from '../constants/user.constants';
 import { Token } from '../services/cookie.service';
 import { DietPlan } from './meal';
-import { Nutrition } from './nutritions';
 
 interface BodyInfo {
   weight: number;
   height: number;
   exerciseRate: ExerciseRate;
   bmi: number;
-}
-
-interface MealPreferences {
-  mealPlanDays: number;
 }
 
 export interface IUser extends Document {
@@ -21,7 +16,7 @@ export interface IUser extends Document {
   middleName?: string;
   bodyInfo: BodyInfo;
   dietPlan: DietPlan;
-  mealPreferences?: MealPreferences;
+  mealPlanDays: number;
 }
 
 export interface AuthUser extends IUser {

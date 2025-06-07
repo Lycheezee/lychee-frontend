@@ -26,8 +26,7 @@ const FoodCollection = () => {
         overflow: 'hidden',
         borderWidth: 1,
         borderColor: '#eee',
-      }}
-      onPress={() => console.log(`Selected food: ${item.name}`)}>
+      }}>
       <Image source={{ uri: item.image }} style={{ width: 100, height: 100 }} />
       <View style={{ flex: 1, padding: 12, justifyContent: 'center' }}>
         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
@@ -43,8 +42,7 @@ const FoodCollection = () => {
         style={{
           padding: 12,
           justifyContent: 'center',
-        }}
-        onPress={() => console.log(`Add ${item.name} to favorites`)}>
+        }}>
         <Icon name="heart-outline" size={24} color="#FF5252" />
       </TouchableOpacity>
     </TouchableOpacity>

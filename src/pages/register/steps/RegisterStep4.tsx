@@ -24,39 +24,29 @@ export function RegisterStep4({
 }) {
   const methods = useForm<any>({
     defaultValues: {
-      mealPlanDays:
-        defaultValues?.mealPlanDays || defaultValues?.mealPreferences?.mealPlanDays || 7, // Default to one week
+      mealPlanDays: defaultValues?.mealPlanDays || defaultValues?.mealPlanDays || 7, // Default to one week
       ...defaultValues,
     },
     resolver: yupResolver(mealPreferencesSchema),
   });
 
   const { handleSubmit } = methods;
-  const onSubmit = async (data: MealPreferencesReq) => {
+  const onSubmit = async (data: any) => {
     try {
-      const user = await userService.updateUser(
-        { mealPreferences: { mealPlanDays: data.mealPlanDays } },
+      const user = (await userService.updateUser(
+        { mealPlanDays: data.mealPlanDays },
         { type: 'mealLength' }
-      );
+      )) as any;
       if (!user) return;
 
       // Transform data to match IUser structure
       const userData: Partial<IUser> = {
-        mealPreferences: {
-          mealPlanDays: data.mealPlanDays || 7,
-        },
+        mealPlanDays: data.mealPlanDays || 7,
+        dietPlan: user.dietPlan,
       };
       onNext(userData);
     } catch (err) {
       console.error('Error updating meal plan preferences:', err);
-
-      // Transform data even on error to maintain type consistency
-      const userData: Partial<IUser> = {
-        mealPreferences: {
-          mealPlanDays: data.mealPlanDays || 7,
-        },
-      };
-      onNext(userData); // Continue anyway to avoid blocking the user
     }
   };
 

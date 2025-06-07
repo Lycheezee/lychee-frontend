@@ -37,7 +37,6 @@ export function RegisterStep3({
       const response = await userService.updateUser({ bodyInfo: data }, { type: 'bodyInfo' });
 
       if (!response) return;
-      console.log();
       onNext({
         ...data,
         dietPlan: response.dietPlan,

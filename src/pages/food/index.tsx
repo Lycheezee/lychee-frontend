@@ -55,8 +55,7 @@ const Food = () => {
 
         {/* Coming Soon - Meal Planner */}
         <TouchableOpacity
-          style={[styles.card, styles.plannerCard]}
-          onPress={() => console.log('Meal Planner - Coming Soon')}>
+          style={[styles.card, styles.plannerCard]}>
           <View style={styles.cardContent}>
             <Icon name="calendar-outline" size={40} color="#6A1B9A" style={styles.cardIcon} />
             <Text style={styles.cardTitle}>Meal Planner</Text>
