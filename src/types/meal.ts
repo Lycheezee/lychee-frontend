@@ -6,7 +6,7 @@ export enum EMealStatus {
 }
 
 export interface Meal {
-  id: string;
+  _id: string;
   name: string;
   status: EMealStatus;
   nutrition?: Nutrition;
@@ -20,7 +20,7 @@ export interface MealPlan {
 }
 
 export interface DietPlan {
-  id: string;
+  _id: string;
   nutritionsPerDay: Nutrition;
   plan: MealPlan[];
 }

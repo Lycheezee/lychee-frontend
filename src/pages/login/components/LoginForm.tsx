@@ -43,7 +43,7 @@ export function LoginForm() {
         // @ts-ignore
         return navigation.navigate(ROUTES.REGISTER, { step: 3 });
       }
-      if (!user.mealPreferences) {
+      if (!user.mealPlanDays) {
         // @ts-ignore
         return navigation.navigate(ROUTES.REGISTER, { step: 4 });
       }

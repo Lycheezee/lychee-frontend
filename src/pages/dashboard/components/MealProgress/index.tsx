@@ -1,22 +1,82 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MealPlan, EMealStatus } from '../../../../types/meal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import moment from 'moment';
+import mealService from '../../../../services/meal.service';
 
 interface MealProgressProps {
   dailyProgress: MealPlan;
+  dietPlanId?: string;
+  onMealStatusUpdate?: (updatedPlan: MealPlan) => void;
 }
 
-export const MealProgress = ({ dailyProgress }: MealProgressProps) => {
+export const MealProgress = ({
+  dailyProgress,
+  dietPlanId,
+  onMealStatusUpdate,
+}: MealProgressProps) => {
   const { meals, percentageOfCompletions } = dailyProgress;
+
+  const handleMealToggle = async (mealId: string, currentStatus: EMealStatus) => {
+    console.log('Toggling meal status:', mealId, currentStatus);
+    if (!dietPlanId) {
+      console.warn('Diet plan ID not provided, cannot update meal status');
+      return;
+    }
+
+    try {
+      const newStatus =
+        currentStatus === EMealStatus.COMPLETED ? EMealStatus.NOT_COMPLETED : EMealStatus.COMPLETED;
+
+      const date = moment(dailyProgress.date).format('YYYY-MM-DD');
+
+      await mealService.updateMealStatus(dietPlanId, {
+        date,
+        foodId: mealId,
+        status: newStatus,
+      });
+
+      // Update local state optimistically
+      const updatedMeals = meals.map((meal) =>
+        meal._id === mealId ? { ...meal, status: newStatus } : meal
+      );
+
+      const completedMeals = updatedMeals.filter(
+        (meal) => meal.status === EMealStatus.COMPLETED
+      ).length;
+      const newPercentage = Math.round((completedMeals / updatedMeals.length) * 100);
+
+      const updatedPlan: MealPlan = {
+        ...dailyProgress,
+        meals: updatedMeals,
+        percentageOfCompletions: newPercentage,
+      };
+
+      // Call callback to update parent component
+      if (onMealStatusUpdate) {
+        onMealStatusUpdate(updatedPlan);
+      }
+
+      console.log('Meal status updated successfully');
+    } catch (error) {
+      console.error('Failed to update meal status:', error);
+      // Here you could show a toast notification or error message
+    }
+  };
+
+  console.log({ meals });
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>This is your daily target meals:</Text>
-
       {/* Meals list with checkboxes */}
       <View style={styles.mealsList}>
         {meals.map((meal) => (
-          <View key={meal.id} style={styles.mealRow}>
+          <TouchableOpacity
+            key={meal._id}
+            style={styles.mealRow}
+            onPress={() => handleMealToggle(meal._id, meal.status)}
+            activeOpacity={0.7}>
             <Text style={styles.mealName}>{meal.name}</Text>
             <View style={styles.checkbox}>
               {meal.status === EMealStatus.COMPLETED ? (
@@ -27,10 +87,9 @@ export const MealProgress = ({ dailyProgress }: MealProgressProps) => {
                 <View style={styles.emptyCheckbox} />
               )}
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
-
       {/* Progress bar */}
       <View style={styles.progressBarContainer}>
         <View style={styles.progressBackground}>
