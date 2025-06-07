@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   View,
   Text,
@@ -14,8 +13,10 @@ import { BottomNav } from '../../components/BottomNav';
 import styles from './styles/food.style';
 import { useMealHistory } from '../../hooks/useMealHistory';
 import { MealPlan } from '../../types/meal';
+import { ROUTES } from '../../constants/routes';
 
 const FoodHistory = () => {
+  // @ts-ignore - Allow navigation to the new screen
   const navigation = useNavigation();
   const { data: dietPlan, isLoading, isError, error, refetch } = useMealHistory();
 
@@ -40,11 +41,15 @@ const FoodHistory = () => {
     if (percentage >= 80) return styles.completionHigh.color;
     if (percentage >= 50) return styles.completionMedium.color;
     return styles.completionLow.color;
-  };
-
-  // Render simplified day item showing only date and completion percentage
+  }; // Render simplified day item showing only date and completion percentage
+  // Now touchable to navigate to day details
   const renderDayItem = ({ item }: { item: MealPlan }) => (
-    <View style={styles.dayItem}>
+    <TouchableOpacity
+      style={styles.dayItem}
+      onPress={() => {
+        // @ts-ignore - Using any to bypass type checking for navigation
+        navigation.navigate(ROUTES.FOOD_DAY_DETAILS as any, { date: item.date });
+      }}>
       <Text style={styles.dayDate}>
         {new Date(item.date).toLocaleDateString('en-US', {
           weekday: 'long',
@@ -56,7 +61,8 @@ const FoodHistory = () => {
         style={[styles.dayCompletion, { color: getCompletionColor(item.percentageOfCompletions) }]}>
         {Math.round(item.percentageOfCompletions)}%
       </Text>
-    </View>
+      <Icon name="chevron-forward" size={20} color="#999" />
+    </TouchableOpacity>
   );
 
   // Render progress section with rounded progress bar

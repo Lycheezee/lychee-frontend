@@ -15,6 +15,7 @@ import styles from './styles/dashboard.style';
 /**
  * Main Dashboard component
  * Orchestrates the dashboard layout and manages data flow between components
+ * Now uses the meal history service for real-time diet plan data
  */
 export const Dashboard = () => {
   const methods = useForm();
@@ -28,6 +29,7 @@ export const Dashboard = () => {
     refetch,
   } = useDashboardData();
 
+  // Use today's meal plan from the meal history service, with mock data as fallback
   const dailyProgress = todayPlan || mockDailyProgress;
 
   if (isLoading) {
@@ -57,7 +59,7 @@ export const Dashboard = () => {
   return (
     <FormProvider {...methods}>
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#fff" barStyle="dark-content"  />
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
         <ScrollView style={styles.scrollContent} showsVerticalScrollIndicator={false}>
           <WelcomeSection firstName={userInfo.firstName} />
           <MealProgress

@@ -34,6 +34,7 @@ export const useMealHistory = () => {
     },
     enabled: isSuccess && !!data?._id,
     staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: true, 
     meta: {
       userLoading: isLoading,
       userError: error,

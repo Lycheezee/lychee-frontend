@@ -45,15 +45,50 @@ src/constants/
 
 ### 3. **Enhanced Data Management**
 
-- **useDashboardData**: Custom hook with loading/error states
-- **Proper error handling**: Graceful degradation
-- **Automatic retry**: User can retry failed requests
+- **useDashboardData**: Custom hook integrating meal history service for real-time data
+- **Meal History Integration**: Uses dedicated dietPlan service for today's plan
+- **React Query Caching**: Automatic caching and synchronization of meal data
+- **Optimistic Updates**: Immediate UI feedback for meal status changes
+- **Proper error handling**: Graceful degradation with retry functionality
+- **Performance Optimization**: useMemo for today's plan calculation
 
 ### 4. **Utility Functions**
 
 - **Nutrition calculations**: Centralized rounding logic
 - **Meal plan utilities**: Date handling and completion tracking
 - **Type-safe constants**: Configuration management
+
+## 📊 Meal History Integration
+
+### Data Flow
+
+The dashboard now uses the meal history service for real-time diet plan data:
+
+1. **useDashboardData Hook**: Combines user data and meal history
+2. **Meal History Service**: Fetches diet plan from backend API endpoint
+3. **Today's Plan Calculation**: Uses memoized utility to find current day's meals
+4. **Nutrition Calculation**: Automatically updates based on meal completions
+
+### Benefits
+
+- **Real-time Data**: Always shows current meal plan status
+- **Caching**: React Query handles data caching and synchronization
+- **Error Handling**: Graceful fallbacks with user feedback
+- **Performance**: Optimized calculations with useMemo
+- **Consistency**: Same data source as Food History page
+
+### Implementation
+
+```tsx
+// useDashboardData now integrates meal history
+const { data: dietPlan, isLoading: isDietLoading, error: dietError } = useMealHistory();
+
+// Find today's plan with memoization for performance
+const todayPlan = useMemo(() => {
+  if (!dietPlan?.plan) return null;
+  return findTodayMealPlan(dietPlan);
+}, [dietPlan]);
+```
 
 ## 🔧 Usage
 

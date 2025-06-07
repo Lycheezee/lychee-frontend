@@ -203,8 +203,7 @@ const foodStyles = StyleSheet.create({
     fontWeight: '600',
     color: '#333',
     textAlign: 'center',
-  },
-  // Simplified day item styles
+  }, // Simplified day item styles
   dayItem: {
     backgroundColor: 'white',
     marginHorizontal: 16,
@@ -237,6 +236,7 @@ const foodStyles = StyleSheet.create({
   dayCompletion: {
     fontSize: 16,
     fontWeight: '700',
+    marginRight: 10, // Add space between percentage and icon
   },
   completionHigh: {
     color: '#4CAF50',
@@ -246,6 +246,95 @@ const foodStyles = StyleSheet.create({
   },
   completionLow: {
     color: '#f44336',
+  },
+  // Food Day Details screen styles
+  mealItemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    paddingVertical: 15,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  mealItemContent: {
+    flex: 1,
+  },
+  mealItemName: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#333',
+    marginBottom: 4,
+  },
+  mealItemCalories: {
+    fontSize: 14,
+    color: '#666',
+  },
+  mealItemStatus: {
+    paddingLeft: 16,
+  },
+  dayProgressContainer: {
+    backgroundColor: 'white',
+    padding: 16,
+    marginBottom: 12,
+  },
+  dayProgressHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  dayProgressTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  dayProgressPercentage: {
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  nutritionSummaryContainer: {
+    backgroundColor: 'white',
+    padding: 16,
+    marginBottom: 12,
+  },
+  nutritionSummaryTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 16,
+  },
+  nutritionSummaryGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+  },
+  nutritionSummaryItem: {
+    width: '22%',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  nutritionSummaryValue: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#4CAF50',
+    marginBottom: 4,
+  },
+  nutritionSummaryLabel: {
+    fontSize: 14,
+    color: '#666',
+  },
+  mealListTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    padding: 16,
+    paddingBottom: 8,
+    backgroundColor: 'white',
+  },
+  mealListContainer: {
+    paddingBottom: 20,
   },
 });
 

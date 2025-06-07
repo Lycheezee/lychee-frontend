@@ -12,6 +12,7 @@ import UserProfile from './src/pages/userProfile';
 import Food from './src/pages/food';
 import FoodHistory from './src/pages/food/FoodHistory';
 import FoodCollection from './src/pages/food/FoodCollection';
+import FoodDayDetails from './src/pages/food/FoodDayDetails';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ export function DashboardStack() {
         <Stack.Screen name={ROUTES.HOME} component={Dashboard} />
         <Stack.Screen name={ROUTES.FOOD} component={Food} />
         <Stack.Screen name={ROUTES.FOOD_HISTORY} component={FoodHistory} />
+        <Stack.Screen name={ROUTES.FOOD_DAY_DETAILS} component={FoodDayDetails} />
         <Stack.Screen name={ROUTES.FOOD_COLLECTION} component={FoodCollection} />
         <Stack.Screen name={ROUTES.USER_PROFILE} component={UserProfile} />
       </Stack.Navigator>

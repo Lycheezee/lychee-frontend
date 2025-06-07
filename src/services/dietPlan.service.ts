@@ -1,7 +1,7 @@
 import request from './baseRequest';
 import { DietPlan } from '../types/meal';
 
-const BASE_URL = `${process.env.EXPO_PUBLIC_API_URL}/dietplan`;
+const BASE_URL = `${process.env.EXPO_PUBLIC_API_URL}/diet-plan`;
 
 export class DietPlanService {
   /**
