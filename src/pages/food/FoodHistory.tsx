@@ -6,66 +6,99 @@ import {
   SafeAreaView,
   StatusBar,
   FlatList,
-  Image,
+  ActivityIndicator,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { BottomNav } from '../../components/BottomNav';
 import styles from './styles/food.style';
-import { mockMealHistory } from '../../mocks/foodMockData';
+import { useMealHistory } from '../../hooks/useMealHistory';
+import { MealPlan } from '../../types/meal';
 
 const FoodHistory = () => {
   const navigation = useNavigation();
-  const renderMealItem = ({ item }) => (
-    <View
-      style={{
-        padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#eee',
-        flexDirection: 'row',
-        alignItems: 'center',
-      }}>
-      <Image
-        source={{ uri: item.image }}
-        style={{ width: 60, height: 60, borderRadius: 8, marginRight: 12 }}
-      />
-      <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 16, fontWeight: '500' }}>{item.name}</Text>
-        <Text style={{ color: '#666' }}>{item.description}</Text>
-        <Text style={{ color: '#888', marginTop: 4 }}>{item.calories} calories</Text>
-      </View>
-      <Icon
-        name={item.status === 'completed' ? 'checkmark-circle' : 'ellipse-outline'}
-        size={22}
-        color={item.status === 'completed' ? '#4CAF50' : '#ccc'}
-      />
-    </View>
-  );
+  const { data: dietPlan, isLoading, isError, error, refetch } = useMealHistory();
 
-  const renderDayItem = ({ item }) => (
-    <View
-      style={{
-        marginBottom: 15,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#eee',
-      }}>
-      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>
+  // Calculate remaining days and progress
+  const calculateProgress = () => {
+    if (!dietPlan?.plan || dietPlan.plan.length === 0) {
+      return { remainingDays: 0, completedDays: 0, totalDays: 0, progressPercentage: 0 };
+    }
+
+    const totalDays = dietPlan.plan.length;
+    const completedDays = dietPlan.plan.filter((day) => day.percentageOfCompletions >= 100).length;
+    const remainingDays = Math.max(0, totalDays - completedDays);
+    const progressPercentage = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
+
+    return { remainingDays, completedDays, totalDays, progressPercentage };
+  };
+
+  const { remainingDays, completedDays, totalDays, progressPercentage } = calculateProgress();
+
+  // Get completion color based on percentage
+  const getCompletionColor = (percentage: number) => {
+    if (percentage >= 80) return styles.completionHigh.color;
+    if (percentage >= 50) return styles.completionMedium.color;
+    return styles.completionLow.color;
+  };
+
+  // Render simplified day item showing only date and completion percentage
+  const renderDayItem = ({ item }: { item: MealPlan }) => (
+    <View style={styles.dayItem}>
+      <Text style={styles.dayDate}>
         {new Date(item.date).toLocaleDateString('en-US', {
           weekday: 'long',
-          year: 'numeric',
-          month: 'long',
+          month: 'short',
           day: 'numeric',
         })}
       </Text>
-      <FlatList
-        data={item.meals}
-        keyExtractor={(meal) => meal.id}
-        renderItem={renderMealItem}
-        scrollEnabled={false}
-      />
+      <Text
+        style={[styles.dayCompletion, { color: getCompletionColor(item.percentageOfCompletions) }]}>
+        {Math.round(item.percentageOfCompletions)}%
+      </Text>
+    </View>
+  );
+
+  // Render progress section with rounded progress bar
+  const renderProgressSection = () => (
+    <View style={styles.progressSection}>
+      <Text style={styles.progressTitle}>Diet Plan Progress</Text>
+      <Text style={styles.progressSubtitle}>
+        {completedDays} of {totalDays} days completed • {remainingDays} days remaining
+      </Text>
+
+      <View style={styles.progressBarContainer}>
+        <View style={[styles.progressBar, { width: `${progressPercentage}%` }]} />
+      </View>
+
+      <Text style={styles.progressText}>{progressPercentage}% Complete</Text>
+    </View>
+  ); // Render loading state
+  const renderLoading = () => (
+    <View style={styles.centerContainer}>
+      <ActivityIndicator size="large" color="#4CAF50" />
+      <Text style={styles.loadingText}>Loading meal history...</Text>
+    </View>
+  );
+
+  // Render error state
+  const renderError = () => (
+    <View style={styles.centerContainer}>
+      <Icon name="alert-circle-outline" size={50} color="#f44336" />
+      <Text style={styles.errorText}>Failed to load meal history</Text>
+      <Text style={styles.errorSubtext}>{error?.message || 'Please try again'}</Text>
+      <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
+        <Text style={styles.retryText}>Retry</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  // Render empty state
+  const renderEmpty = () => (
+    <View style={styles.centerContainer}>
+      <Icon name="calendar-outline" size={50} color="#757575" />
+      <Text style={styles.emptyText}>No meal history found</Text>
+      <Text style={styles.emptySubtext}>Your meal plan will appear here once available</Text>
     </View>
   );
 
@@ -78,16 +111,29 @@ const FoodHistory = () => {
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Meals History</Text>
+        <Text style={styles.headerTitle}>Meal History</Text>
+        <TouchableOpacity style={styles.refreshButton} onPress={() => refetch()}>
+          <Icon name="refresh" size={24} color="#333" />
+        </TouchableOpacity>
       </View>
 
       {/* Content */}
-      <FlatList
-        data={mockMealHistory}
-        keyExtractor={(item) => item.id}
-        renderItem={renderDayItem}
-        contentContainerStyle={{ padding: 16 }}
-      />
+      {isLoading ? (
+        renderLoading()
+      ) : isError ? (
+        renderError()
+      ) : !dietPlan || !dietPlan.plan || dietPlan.plan.length === 0 ? (
+        renderEmpty()
+      ) : (
+        <FlatList
+          data={dietPlan.plan}
+          keyExtractor={(item, index) => item.date || `day-${index}`}
+          renderItem={renderDayItem}
+          ListHeaderComponent={renderProgressSection}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      )}
 
       {/* Bottom Navigation */}
       <BottomNav active="Food" />

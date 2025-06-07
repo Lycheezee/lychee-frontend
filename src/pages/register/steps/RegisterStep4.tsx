@@ -3,7 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '../../../components/Button';
 import { mealPreferencesSchema } from '../schemas/steps.schema';
-import userService from '~/services/user.service';
+import { useUpdateUser } from '~/hooks/useUser';
 import { Provider } from 'react-native-paper';
 import { NumberInputField } from '~/components/NumberInputField';
 import { RegisterLayout } from '../components/RegisterLayout';
@@ -22,6 +22,7 @@ export function RegisterStep4({
   onBack: () => void;
   defaultValues?: any; // Keep as any to handle both IUser and custom data
 }) {
+  const updateUserMutation = useUpdateUser();
   const methods = useForm<any>({
     defaultValues: {
       mealPlanDays: defaultValues?.mealPlanDays || defaultValues?.mealPlanDays || 7, // Default to one week
@@ -33,10 +34,10 @@ export function RegisterStep4({
   const { handleSubmit } = methods;
   const onSubmit = async (data: any) => {
     try {
-      const user = (await userService.updateUser(
-        { mealPlanDays: data.mealPlanDays },
-        { type: 'mealLength' }
-      )) as any;
+      const user = await updateUserMutation.mutateAsync({
+        payload: { mealPlanDays: data.mealPlanDays },
+        params: { type: 'mealLength' },
+      });
       if (!user) return;
 
       // Transform data to match IUser structure
@@ -71,7 +72,9 @@ export function RegisterStep4({
               />
             </View>
 
-            <Button onPress={handleSubmit(onSubmit)}>Finish</Button>
+            <Button onPress={handleSubmit(onSubmit)} disabled={updateUserMutation.isPending}>
+              {updateUserMutation.isPending ? 'Saving...' : 'Finish'}
+            </Button>
           </View>
         </RegisterLayout>
       </Provider>

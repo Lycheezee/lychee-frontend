@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import authService from '~/services/auth.service';
+import { useUser } from '~/hooks/useAuth';
 import { MealPlan } from '~/types/meal';
 import { Nutrition } from '~/types/nutritions';
 import { mockUser } from '~/mocks/dashboardMockData';
@@ -11,11 +11,9 @@ import { calculateTotalNutrition } from '~/utils/nutritionCalculations';
  * Handles user data fetching, meal plan retrieval, and nutrition calculations
  */
 export const useDashboardData = () => {
-  const [userInfo, setUserInfo] = useState(mockUser);
+  const { data: userInfo, isLoading, error: userError, refetch } = useUser();
   const [todayPlan, setTodayPlan] = useState<MealPlan | null>(null);
   const [todayNutritions, setTodayNutritions] = useState<Nutrition | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   /**
    * Handles meal status updates and recalculates nutrition
@@ -30,51 +28,35 @@ export const useDashboardData = () => {
     }
   };
 
-  /**
-   * Fetches user data and sets up today's meal plan
-   */
-  const fetchUserData = async () => {
-    setIsLoading(true);
-    setError(null);
+  // Process user data when it changes
+  useEffect(() => {
+    if (userInfo) {
+      // Find today's meal plan
+      const userTodayPlan = findTodayMealPlan(userInfo.dietPlan);
 
-    try {
-      const userData = await authService.getUser();
-      if (userData) {
-        setUserInfo(userData);
+      if (userTodayPlan) {
+        setTodayPlan(userTodayPlan);
 
-        // Find today's meal plan
-        const userTodayPlan = findTodayMealPlan(userData.dietPlan);
-
-        if (userTodayPlan) {
-          setTodayPlan(userTodayPlan);
-
-          // Calculate nutrition totals for today's meals
-          if (userTodayPlan.meals && userTodayPlan.meals.length > 0) {
-            const totalNutrition = calculateTotalNutrition(userTodayPlan.meals);
-            setTodayNutritions(totalNutrition);
-          }
+        // Calculate nutrition totals for today's meals
+        if (userTodayPlan.meals && userTodayPlan.meals.length > 0) {
+          const totalNutrition = calculateTotalNutrition(userTodayPlan.meals);
+          setTodayNutritions(totalNutrition);
         }
       }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      setError('Failed to load user data');
-    } finally {
-      setIsLoading(false);
+    } else {
+      // Fallback to mock data if no user data available
+      setTodayPlan(null);
+      setTodayNutritions(null);
     }
-  };
-
-  // Fetch user data on component mount
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  }, [userInfo]);
 
   return {
-    userInfo,
+    userInfo: userInfo || mockUser,
     todayPlan,
     todayNutritions,
     isLoading,
-    error,
+    error: userError?.message || null,
     handleMealStatusUpdate,
-    refetch: fetchUserData,
+    refetch,
   };
 };

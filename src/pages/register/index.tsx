@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { InputField } from '../../components/InputField';
 import { Button } from '../../components/Button';
 import { registerSchema } from './schemas/steps.schema';
-import authService from '~/services/auth.service';
+import { useRegister } from '~/hooks/useAuth';
 import { Provider } from 'react-native-paper';
 import { RegisterLayout } from './components/RegisterLayout';
 import { IUser } from '~/types/user';
@@ -18,6 +18,7 @@ export interface RegisterReq {
 
 export default function RegisterPage({ onNext }: { onNext: (data?: Partial<IUser>) => void }) {
   const [error, setError] = useState<string | null>(null);
+  const registerMutation = useRegister();
   const methods = useForm<RegisterReq>({
     resolver: yupResolver(registerSchema),
   });
@@ -27,7 +28,7 @@ export default function RegisterPage({ onNext }: { onNext: (data?: Partial<IUser
   const onSubmit = async (data: RegisterReq) => {
     try {
       setError(null);
-      await authService.register({
+      await registerMutation.mutateAsync({
         email: data.email,
         password: data.password,
         confirmPassword: data.confirmPassword,
@@ -64,7 +65,9 @@ export default function RegisterPage({ onNext }: { onNext: (data?: Partial<IUser
               secureTextEntry
             />
             {error && <Text style={styles.errorText}>{error}</Text>}
-            <Button onPress={handleSubmit(onSubmit)}>Register</Button>
+            <Button onPress={handleSubmit(onSubmit)} disabled={registerMutation.isPending}>
+              {registerMutation.isPending ? 'Creating Account...' : 'Register'}
+            </Button>
           </View>
         </RegisterLayout>
       </Provider>

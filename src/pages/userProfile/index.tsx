@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { View, SafeAreaView, StatusBar, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BottomNav } from '../../components/BottomNav';
-import authService from '../../services/auth.service';
+import { useUser, useLogout } from '../../hooks/useAuth';
 import { ROUTES } from '../../constants/routes';
 import styles from './styles/userProfile.style';
 
@@ -13,28 +13,13 @@ import LogoutModal from './components/LogoutModal';
 
 const UserProfile = () => {
   const navigation = useNavigation();
-  const [userData, setUserData] = useState({ firstName: '', lastName: '' });
+  const { data: userData } = useUser();
+  const logoutMutation = useLogout();
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
-
-  useEffect(() => {
-    // Fetch user data
-    const fetchUserData = async () => {
-      try {
-        const user = await authService.getUser();
-        if (user) {
-          setUserData(user);
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
 
   const handleLogout = async () => {
     try {
-      await authService.logoutUser();
+      await logoutMutation.mutateAsync();
       navigation.navigate(ROUTES.LOGIN as never);
     } catch (error) {
       console.error('Error logging out:', error);
@@ -54,10 +39,10 @@ const UserProfile = () => {
         <ScrollView
           style={styles.scrollContent}
           contentContainerStyle={styles.scrollContentContainer}>
-          {/* Profile Avatar and Username */}
-          <ProfileHeader firstName={userData.firstName} lastName={userData.lastName} />
-
-          {/* Action Buttons */}
+          <ProfileHeader
+            firstName={userData?.firstName || ''}
+            lastName={userData?.lastName || ''}
+          />
           <View style={styles.buttonContainer}>
             <ProfileButton
               label="Update Profile"

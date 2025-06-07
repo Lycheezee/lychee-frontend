@@ -6,6 +6,7 @@ import { ROUTES } from './src/constants/routes';
 import { linking } from './src/routes/routes';
 import { Dashboard } from './src/pages/dashboard';
 import { ProtectedRoot } from './src/pages/permissionDenied';
+import { QueryProvider } from './src/providers/QueryProvider';
 import './global.css';
 import UserProfile from './src/pages/userProfile';
 import Food from './src/pages/food';
@@ -30,16 +31,18 @@ export function DashboardStack() {
 
 export default function App() {
   return (
-    <NavigationContainer linking={linking}>
-      <Stack.Navigator
-        id={undefined}
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name={ROUTES.LOGIN} component={LoginPage} />
-        <Stack.Screen name={ROUTES.REGISTER} component={RegisterFlow} />
-        <Stack.Screen name={ROUTES.DASHBOARD} component={DashboardStack} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <QueryProvider>
+      <NavigationContainer linking={linking}>
+        <Stack.Navigator
+          id={undefined}
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <Stack.Screen name={ROUTES.LOGIN} component={LoginPage} />
+          <Stack.Screen name={ROUTES.REGISTER} component={RegisterFlow} />
+          <Stack.Screen name={ROUTES.DASHBOARD} component={DashboardStack} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </QueryProvider>
   );
 }

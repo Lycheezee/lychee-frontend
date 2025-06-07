@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MealPlan, EMealStatus } from '../../../../types/meal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
-import mealService from '../../../../services/meal.service';
+import { useMealStatusUpdate } from '../../../../hooks/useMeal';
 
 interface MealProgressProps {
   dailyProgress: MealPlan;
@@ -16,6 +16,7 @@ export const MealProgress = ({
   onMealStatusUpdate,
 }: MealProgressProps) => {
   const { meals, percentageOfCompletions } = dailyProgress;
+  const updateMealStatus = useMealStatusUpdate();
 
   const handleMealToggle = async (mealId: string, currentStatus: EMealStatus) => {
     if (!dietPlanId) {
@@ -29,13 +30,7 @@ export const MealProgress = ({
 
       const date = moment(dailyProgress.date).format('YYYY-MM-DD');
 
-      await mealService.updateMealStatus(dietPlanId, {
-        date,
-        foodId: mealId,
-        status: newStatus,
-      });
-
-      // Update local state optimistically
+      // Update local state optimistically first
       const updatedMeals = meals.map((meal) =>
         meal._id === mealId ? { ...meal, status: newStatus } : meal
       );
@@ -51,13 +46,26 @@ export const MealProgress = ({
         percentageOfCompletions: newPercentage,
       };
 
-      // Call callback to update parent component
+      // Call callback to update parent component immediately
       if (onMealStatusUpdate) {
         onMealStatusUpdate(updatedPlan);
       }
+
+      // Then make the API call
+      await updateMealStatus.mutateAsync({
+        dietPlanId,
+        payload: {
+          date,
+          foodId: mealId,
+          status: newStatus,
+        },
+      });
     } catch (error) {
       console.error('Failed to update meal status:', error);
-      // Here you could show a toast notification or error message
+      // Revert optimistic update on error
+      if (onMealStatusUpdate) {
+        onMealStatusUpdate(dailyProgress);
+      }
     }
   };
 

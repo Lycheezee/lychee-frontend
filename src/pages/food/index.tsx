@@ -54,7 +54,7 @@ const Food = () => {
         </TouchableOpacity>
 
         {/* Coming Soon - Meal Planner */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[styles.card, styles.plannerCard]}>
           <View style={styles.cardContent}>
             <Icon name="calendar-outline" size={40} color="#6A1B9A" style={styles.cardIcon} />
@@ -66,7 +66,7 @@ const Food = () => {
               <Text style={styles.comingSoonText}>Coming Soon</Text>
             </View>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
 
       {/* Bottom Navigation */}

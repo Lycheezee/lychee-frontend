@@ -17,6 +17,18 @@ export class MealService {
       throw error;
     }
   }
+
+  async getMealHistory(userId: string, daysLimit?: number) {
+    try {
+      const response = await request.get(`/diet-plan/${userId}/history`, {
+        params: { limit: daysLimit || 30 },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching meal history:', error);
+      throw error;
+    }
+  }
 }
 
 const mealService = new MealService();

@@ -10,6 +10,7 @@ interface BodyInfo {
 }
 
 export interface IUser extends Document {
+  _id: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -20,7 +21,6 @@ export interface IUser extends Document {
 }
 
 export interface AuthUser extends IUser {
-  _id: string;
   accessToken: Token;
 }
 

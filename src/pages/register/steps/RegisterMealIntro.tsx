@@ -1,13 +1,12 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Provider } from 'react-native-paper';
-import { useState, useEffect } from 'react';
 import { RegisterLayout } from '../components/RegisterLayout';
 import { Button } from '../../../components/Button';
 import { Nutrition } from '../../../types/nutritions';
-import { IUser, AuthUser } from '../../../types/user';
+import { IUser } from '../../../types/user';
 import { createNutritionLabel } from '../../../utils/nutritionFormatter';
 import { DietPlan } from '~/types/meal';
-import authService from '~/services/auth.service';
+import { useUser } from '~/hooks/useAuth';
 
 // Interface for registration data that includes API response fields
 interface RegistrationData {
@@ -43,24 +42,7 @@ export function RegisterMealIntro({
   onBack: () => void;
   defaultValues?: RegistrationData;
 }) {
-  const [user, setUser] = useState<Omit<AuthUser, 'accessToken'> | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch user data on component mount
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await authService.getUser();
-        setUser(userData);
-      } catch (error) {
-        console.error('Failed to fetch user:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const { data: user, isLoading: loading } = useUser();
 
   // Show loading state while fetching user data
   if (loading) {
