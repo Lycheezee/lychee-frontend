@@ -5,9 +5,9 @@ import { Nutrition } from '../types/nutritions';
  */
 export const NUTRITION_UNITS = {
   calories: 'kcal',
-  proteins: 'g',
+  protein: 'g',
   carbohydrates: 'g',
-  fats: 'g',
+  fat: 'g',
   fibers: 'g',
   sugars: 'g',
   sodium: 'mg',
@@ -106,9 +106,9 @@ export const getNutritionItem = (
  */
 export const NUTRITION_DISPLAY_NAMES = {
   calories: 'Calories',
-  proteins: 'Protein',
+  protein: 'Protein',
   carbohydrates: 'Carbohydrates',
-  fats: 'Fat',
+  fat: 'Fat',
   fibers: 'Fiber',
   sugars: 'Sugars',
   sodium: 'Sodium',

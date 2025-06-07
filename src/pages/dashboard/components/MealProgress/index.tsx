@@ -18,7 +18,6 @@ export const MealProgress = ({
   const { meals, percentageOfCompletions } = dailyProgress;
 
   const handleMealToggle = async (mealId: string, currentStatus: EMealStatus) => {
-    console.log('Toggling meal status:', mealId, currentStatus);
     if (!dietPlanId) {
       console.warn('Diet plan ID not provided, cannot update meal status');
       return;
@@ -56,20 +55,15 @@ export const MealProgress = ({
       if (onMealStatusUpdate) {
         onMealStatusUpdate(updatedPlan);
       }
-
-      console.log('Meal status updated successfully');
     } catch (error) {
       console.error('Failed to update meal status:', error);
       // Here you could show a toast notification or error message
     }
   };
 
-  console.log({ meals });
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>This is your daily target meals:</Text>
-      {/* Meals list with checkboxes */}
       <View style={styles.mealsList}>
         {meals.map((meal) => (
           <TouchableOpacity

@@ -15,9 +15,9 @@ import {
 // Example nutrition data
 const sampleNutrition: Nutrition = {
   calories: 2150.5,
-  proteins: 87.3,
+  protein: 87.3,
   carbohydrates: 245.8,
-  fats: 72.1,
+  fat: 72.1,
   fibers: 28.7,
   sugars: 45.2,
   sodium: 2100.5,
@@ -25,16 +25,16 @@ const sampleNutrition: Nutrition = {
   waterIntake: 2500.0,
 };
 
-const proteinItem = getNutritionItem(sampleNutrition.proteins, 'proteins');
+const proteinItem = getNutritionItem(sampleNutrition.protein, 'protein');
 
 const nutritionWithUnits = addUnitsToNutrition(sampleNutrition);
 
 export const NutritionDisplay = ({ nutrition }: { nutrition: Nutrition }) => {
   const nutritionKeys: (keyof Nutrition)[] = [
     'calories',
-    'proteins',
+    'protein',
     'carbohydrates',
-    'fats',
+    'fat',
     'fibers',
     'sugars',
   ];

@@ -1,8 +1,8 @@
 export type Nutrition = {
-  fats: number;
+  fat: number;
   calories: number;
   sugars: number;
-  proteins: number;
+  protein: number;
   fibers: number;
   sodium: number;
   cholesterol: number;

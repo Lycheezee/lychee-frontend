@@ -88,15 +88,14 @@ export function RegisterMealIntro({
         return 'Unknown Meal';
       })
     : ['Eggs', 'Coconut', 'Water', 'Potatoes', 'Beef', 'Rice']; // Fallback data
-
   // Use real nutrition data if available, otherwise use sample data
   const nutritionData: Nutrition = nutritionsPerDay
     ? {
         calories: nutritionsPerDay.calories || 0,
         carbohydrates: nutritionsPerDay.carbohydrates || 0,
-        fats: nutritionsPerDay.fats || 0,
+        fat: nutritionsPerDay.fat || 0,
         sugars: nutritionsPerDay.sugars || 0,
-        proteins: nutritionsPerDay.proteins || 0,
+        protein: nutritionsPerDay.protein || 0,
         cholesterol: nutritionsPerDay.cholesterol || 0,
         fibers: nutritionsPerDay.fibers || 0,
         sodium: nutritionsPerDay.sodium || 0,
@@ -106,21 +105,20 @@ export function RegisterMealIntro({
         // Fallback sample data
         calories: 2000,
         carbohydrates: 250,
-        fats: 65,
+        fat: 65,
         sugars: 50,
-        proteins: 150,
+        protein: 150,
         cholesterol: 300,
         fibers: 25,
         sodium: 2300,
         waterIntake: 2000,
       };
-
   // Display only the main nutrients for the UI
   const displayNutrients: (keyof Nutrition)[] = [
     'calories',
     'carbohydrates',
-    'fats',
-    'proteins',
+    'fat',
+    'protein',
     'sugars',
     'cholesterol',
   ];

@@ -28,9 +28,9 @@ export const mockDailyProgress: MealPlan = {
   nutritionSummary: {
     calories: 2000,
     carbohydrates: 20,
-    fats: 20,
+    fat: 20,
     sugars: 5,
-    proteins: 200,
+    protein: 200,
     cholesterol: 20,
     fibers: 15,
     sodium: 500,
@@ -48,8 +48,8 @@ export const mockUser = {
     nutritionsPerDay: {
       calories: 2000,
       carbohydrates: 20,
-      proteins: 200,
-      fats: 20,
+      protein: 200,
+      fat: 20,
       sugars: 5,
       fibers: 15,
       sodium: 500,
