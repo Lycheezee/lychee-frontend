@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Logo } from '../../../components/Logo';
+import { COLORS } from '../../../constants/colors';
 
 interface RegisterHeaderProps {
   title: string;
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
     textAlign: 'center',
   },
 });

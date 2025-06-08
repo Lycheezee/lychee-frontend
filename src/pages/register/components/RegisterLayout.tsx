@@ -3,6 +3,7 @@ import { IconButton } from 'react-native-paper';
 import { SafeAreaWrapper } from '../../../components/SafeAreaWrapper';
 import { RegisterHeader } from './RegisterHeader';
 import { RegisterFooter } from './RegisterFooter';
+import { COLORS } from '../../../constants/colors';
 
 interface RegisterLayoutProps {
   title: string;
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.BACKGROUND,
   },
   content: {
     flex: 1,

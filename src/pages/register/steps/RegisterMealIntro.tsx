@@ -5,6 +5,7 @@ import { Button } from '../../../components/Button';
 import { Nutrition } from '../../../types/nutritions';
 import { IUser } from '../../../types/user';
 import { createNutritionLabel } from '../../../utils/nutritionFormatter';
+import { COLORS } from '../../../constants/colors';
 import { DietPlan } from '~/types/meal';
 import { useUser } from '~/hooks/useAuth';
 
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
   },
   mealBox: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: COLORS.BORDER_LIGHT,
     borderRadius: 12,
     padding: 16,
     marginBottom: 8,
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   nutritionItem: {
-    backgroundColor: '#FFC0CB',
+    backgroundColor: COLORS.MINTY,
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,

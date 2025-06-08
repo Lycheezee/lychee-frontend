@@ -1,5 +1,6 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { COLORS } from '../../constants/colors';
 
 interface SafeAreaWrapperProps {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ interface SafeAreaWrapperProps {
 
 export function SafeAreaWrapper({
   children,
-  backgroundColor = '#fff',
+  backgroundColor = COLORS.BACKGROUND,
   statusBarStyle = 'dark-content',
   style,
 }: SafeAreaWrapperProps) {

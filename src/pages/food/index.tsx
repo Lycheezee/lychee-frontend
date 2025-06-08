@@ -28,7 +28,6 @@ const Food = () => {
       {/* Content */}
       <ScrollView style={styles.content}>
         <Text style={styles.sectionTitle}>Discover</Text>
-
         {/* Meals History Card */}
         <TouchableOpacity style={[styles.card, styles.historyCard]} onPress={navigateToHistory}>
           <View style={styles.cardContent}>
@@ -39,7 +38,6 @@ const Food = () => {
             </Text>
           </View>
         </TouchableOpacity>
-
         {/* Food Collection Card */}
         <TouchableOpacity
           style={[styles.card, styles.collectionCard]}
@@ -57,12 +55,11 @@ const Food = () => {
             </Text>
           </View>
         </TouchableOpacity>
-
-        {/* Coming Soon - Meal Planner */}
+        {/* Coming Soon - Meal Planner */}{' '}
         {/* <TouchableOpacity
           style={[styles.card, styles.plannerCard]}>
           <View style={styles.cardContent}>
-            <Icon name="calendar-outline" size={40} color="#6A1B9A" style={styles.cardIcon} />
+            <Icon name="calendar-outline" size={40} color={COLORS.SECONDARY} style={styles.cardIcon} />
             <Text style={styles.cardTitle}>Meal Planner</Text>
             <Text style={styles.cardDescription}>
               Plan your meals ahead and stay on track (Coming Soon)

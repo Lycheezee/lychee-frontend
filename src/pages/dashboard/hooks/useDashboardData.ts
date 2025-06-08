@@ -74,8 +74,6 @@ export const useDashboardData = () => {
     }
   }, [todayPlan]);
 
-  console.log({ dietPlan, todayPlan });
-
   return {
     userInfo: userInfo || mockUser,
     todayPlan,

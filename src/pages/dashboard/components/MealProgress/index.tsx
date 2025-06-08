@@ -84,7 +84,7 @@ export const MealProgress = ({
             <View style={styles.checkbox}>
               {meal.status === EMealStatus.COMPLETED ? (
                 <View style={styles.checkedBox}>
-                  <Icon name="check" size={16} color="#000" />
+                  <Icon name="check" size={16} color={COLORS.TEXT_PRIMARY} />
                 </View>
               ) : (
                 <View style={styles.emptyCheckbox} />

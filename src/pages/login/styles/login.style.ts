@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../constants/colors';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.BACKGROUND,
     justifyContent: 'center',
   },
   title: {
@@ -12,20 +13,20 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 32,
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
   },
   formContainer: {
     width: '100%',
     gap: 16,
   },
   errorText: {
-    color: '#ff3b30',
+    color: COLORS.ERROR,
     fontSize: 14,
     marginBottom: 8,
     textAlign: 'center',
   },
   switchText: {
-    color: '#007AFF',
+    color: COLORS.PRIMARY,
     textAlign: 'center',
     marginTop: 16,
     fontSize: 16,

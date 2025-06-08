@@ -9,6 +9,7 @@ import { useRegister } from '~/hooks/useAuth';
 import { Provider } from 'react-native-paper';
 import { RegisterLayout } from './components/RegisterLayout';
 import { IUser } from '~/types/user';
+import { COLORS } from '../../constants/colors';
 
 export interface RegisterReq {
   email: string;
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   errorText: {
-    color: '#ff3b30',
+    color: COLORS.ERROR,
     fontSize: 14,
     textAlign: 'center',
   },

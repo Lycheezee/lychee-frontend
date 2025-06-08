@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '../../constants/routes';
+import { COLORS } from '../../constants/colors';
 import cookieService from '~/services/cookie.service';
 
 interface ProtectedRootProps {
@@ -32,11 +33,16 @@ export const ProtectedRoot = ({ children }: ProtectedRootProps) => {
       navigation.navigate(ROUTES.LOGIN as never);
     }
   }, [loading, isAuthenticated, navigation]);
-
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: COLORS.BACKGROUND,
+        }}>
+        <ActivityIndicator size="large" color={COLORS.PRIMARY} />
       </View>
     );
   }

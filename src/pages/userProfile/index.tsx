@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BottomNav } from '../../components/BottomNav';
 import { useUser, useLogout } from '../../hooks/useAuth';
 import { ROUTES } from '../../constants/routes';
+import { COLORS } from '../../constants/colors';
 import styles from './styles/userProfile.style';
 
 // Import custom components
@@ -33,7 +34,7 @@ const UserProfile = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <StatusBar backgroundColor={COLORS.BACKGROUND} barStyle="dark-content" />
 
       <View style={styles.contentContainer}>
         <ScrollView

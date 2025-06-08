@@ -20,15 +20,30 @@ const FoodHistory = () => {
   // @ts-ignore - Allow navigation to the new screen
   const navigation = useNavigation();
   const { data: dietPlan, isLoading, isError, error, refetch } = useMealHistory();
-
-  // Calculate remaining days and progress
+  // Calculate remaining days and progress based on date difference from start date
   const calculateProgress = () => {
     if (!dietPlan?.plan || dietPlan.plan.length === 0) {
       return { remainingDays: 0, completedDays: 0, totalDays: 0, progressPercentage: 0 };
     }
 
     const totalDays = dietPlan.plan.length;
-    const completedDays = dietPlan.plan.filter((day) => day.percentageOfCompletions >= 100).length;
+
+    // Sort plan dates in ascending order
+    const sortedPlanDates = [...dietPlan.plan].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
+    // Get start date (first date in the plan)
+    const startDate = new Date(sortedPlanDates[0].date);
+
+    // Calculate days elapsed since start
+    const today = new Date();
+    const daysSinceStart = Math.floor(
+      (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+    );
+
+    // Days completed is min of elapsed days and total days
+    const completedDays = Math.min(daysSinceStart, totalDays);
     const remainingDays = Math.max(0, totalDays - completedDays);
     const progressPercentage = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
 
@@ -62,7 +77,7 @@ const FoodHistory = () => {
         style={[styles.dayCompletion, { color: getCompletionColor(item.percentageOfCompletions) }]}>
         {Math.round(item.percentageOfCompletions)}%
       </Text>
-      <Icon name="chevron-forward" size={20} color="#999" />
+      <Icon name="chevron-forward" size={20} color={COLORS.TEXT_SECONDARY} />
     </TouchableOpacity>
   );
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text, View, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../styles/userProfile.style';
+import { COLORS } from '../../../constants/colors';
 
 interface ProfileButtonProps {
   label: string;
@@ -29,7 +30,11 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({
   return (
     <TouchableOpacity style={buttonStyles} onPress={onPress}>
       <View style={styles.iconContainer}>
-        <Icon name={iconName} size={24} color={iconColor || (isDanger ? '#FF5252' : '#333')} />
+        <Icon
+          name={iconName}
+          size={24}
+          color={iconColor || (isDanger ? COLORS.ERROR : COLORS.TEXT_PRIMARY)}
+        />
       </View>
       <Text style={textStyles}>{label}</Text>
     </TouchableOpacity>

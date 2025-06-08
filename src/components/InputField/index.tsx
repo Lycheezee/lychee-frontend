@@ -2,6 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { TextInput, Text } from 'react-native-paper';
 import { styles } from './InputField.style';
 import { InputFieldProps } from './InputField.type';
+import { COLORS } from '../../constants/colors';
 
 export const InputField = ({ name = '', label, ...props }: InputFieldProps) => {
   const {
@@ -25,9 +26,9 @@ export const InputField = ({ name = '', label, ...props }: InputFieldProps) => {
             style={styles.input}
             error={!!errors[name]}
             {...props}
-          />
+          />{' '}
           {errors[name] && (
-            <Text style={{ color: 'red', marginBottom: 8, fontSize: 12 }}>
+            <Text style={{ color: COLORS.ERROR, marginBottom: 8, fontSize: 12 }}>
               {errors[name]?.message as string}
             </Text>
           )}

@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '../../../constants/routes';
+import { COLORS } from '../../../constants/colors';
 
 export function RegisterFooter() {
   const navigation = useNavigation();
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: '#007AFF',
+    color: COLORS.PRIMARY,
     fontSize: 16,
   },
 });

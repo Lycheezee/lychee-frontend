@@ -1,9 +1,10 @@
 import { StyleSheet, Platform } from 'react-native';
+import { COLORS, withAlpha } from '../../../constants/colors';
 
 const userProfileStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: COLORS.BACKGROUND,
     position: 'relative',
   },
   contentContainer: {
@@ -21,12 +22,12 @@ const userProfileStyles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.CREAM,
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: COLORS.BORDER_LIGHT,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: COLORS.TEXT_PRIMARY,
         shadowOffset: { width: 0, height: -2 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
@@ -37,34 +38,34 @@ const userProfileStyles = StyleSheet.create({
     }),
   },
   profileSection: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.CREAM,
     paddingHorizontal: 20,
     paddingVertical: 24,
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: COLORS.BORDER_LIGHT,
     marginBottom: 16,
   },
   avatar: {
     width: 90,
     height: 90,
     borderRadius: 45,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: COLORS.MINTY,
     marginBottom: 12,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: COLORS.BORDER_LIGHT,
   },
   avatarText: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
   },
   username: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
     marginTop: 8,
   },
   buttonContainer: {
@@ -72,17 +73,17 @@ const userProfileStyles = StyleSheet.create({
     marginBottom: 8,
   },
   button: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.CREAM,
     borderRadius: 10,
     padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: COLORS.BORDER_LIGHT,
     marginBottom: 12,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: COLORS.TEXT_PRIMARY,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
@@ -93,17 +94,17 @@ const userProfileStyles = StyleSheet.create({
     }),
   },
   dangerButton: {
-    backgroundColor: '#FFF2F2',
-    borderColor: '#FFCACA',
+    backgroundColor: withAlpha(COLORS.ERROR, 0.1),
+    borderColor: withAlpha(COLORS.ERROR, 0.3),
   },
   buttonText: {
     fontSize: 16,
     marginLeft: 12,
     fontWeight: '500',
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
   },
   dangerButtonText: {
-    color: '#FF5252',
+    color: COLORS.ERROR,
   },
   iconContainer: {
     width: 30,
@@ -113,11 +114,11 @@ const userProfileStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: withAlpha(COLORS.TEXT_PRIMARY, 0.5),
   },
   modalContent: {
     width: '80%',
-    backgroundColor: 'white',
+    backgroundColor: COLORS.CREAM,
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
@@ -126,6 +127,7 @@ const userProfileStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: COLORS.TEXT_PRIMARY,
   },
   modalButtonContainer: {
     flexDirection: 'row',
@@ -140,16 +142,16 @@ const userProfileStyles = StyleSheet.create({
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: '#f2f2f2',
+    backgroundColor: COLORS.MINTY,
   },
   confirmButton: {
-    backgroundColor: '#FF5252',
+    backgroundColor: COLORS.ERROR,
   },
   cancelButtonText: {
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
   },
   confirmButtonText: {
-    color: 'white',
+    color: COLORS.TEXT_LIGHT,
   },
 });
 

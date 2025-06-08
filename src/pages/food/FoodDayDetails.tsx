@@ -105,12 +105,11 @@ const FoodDayDetails = () => {
       </View>
     );
   };
-
   // Render nutrition summary section
   const renderNutritionSummary = () => {
     if (!dayPlan?.nutritionSummary) return null;
 
-    const { calories, protein, fat, carbohydrates } = dayPlan.nutritionSummary;
+    const { calories, carbohydrates, cholesterol, fibers } = dayPlan.nutritionSummary;
 
     return (
       <View style={styles.nutritionSummaryContainer}>
@@ -125,12 +124,12 @@ const FoodDayDetails = () => {
             <Text style={styles.nutritionSummaryLabel}>Carbs</Text>
           </View>
           <View style={styles.nutritionSummaryItem}>
-            <Text style={styles.nutritionSummaryValue}>{protein || 0}g</Text>
-            <Text style={styles.nutritionSummaryLabel}>Protein</Text>
+            <Text style={styles.nutritionSummaryValue}>{cholesterol || 0}mg</Text>
+            <Text style={styles.nutritionSummaryLabel}>Cholesterol</Text>
           </View>
           <View style={styles.nutritionSummaryItem}>
-            <Text style={styles.nutritionSummaryValue}>{fat || 0}g</Text>
-            <Text style={styles.nutritionSummaryLabel}>Fat</Text>
+            <Text style={styles.nutritionSummaryValue}>{fibers || 0}g</Text>
+            <Text style={styles.nutritionSummaryLabel}>Fibers</Text>
           </View>
         </View>
       </View>
@@ -170,7 +169,7 @@ const FoodDayDetails = () => {
       ) : (
         <FlatList
           data={dayPlan.meals}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item, index) => `${item._id}-${index}`}
           renderItem={renderMealItem}
           ListHeaderComponent={
             <>
