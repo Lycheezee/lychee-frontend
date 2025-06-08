@@ -96,6 +96,7 @@ const userProfileStyles = StyleSheet.create({
   dangerButton: {
     backgroundColor: withAlpha(COLORS.ERROR, 0.1),
     borderColor: withAlpha(COLORS.ERROR, 0.3),
+    borderWidth: 1,
   },
   buttonText: {
     fontSize: 16,

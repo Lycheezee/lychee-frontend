@@ -22,6 +22,11 @@ export default function RegisterPage({ onNext }: { onNext: (data?: Partial<IUser
   const registerMutation = useRegister();
   const methods = useForm<RegisterReq>({
     resolver: yupResolver(registerSchema),
+    defaultValues: {
+      email: 'linh080605@gmail.com',
+      password: 'linhlinh',
+      confirmPassword: 'linhlinh',
+    },
   });
 
   const { handleSubmit } = methods;

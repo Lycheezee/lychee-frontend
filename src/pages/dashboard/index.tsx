@@ -30,8 +30,8 @@ export const Dashboard = () => {
     refetch,
   } = useDashboardData();
 
-  // Use today's meal plan from the meal history service, with mock data as fallback
   const dailyProgress = todayPlan || mockDailyProgress;
+  
   if (isLoading) {
     return (
       <FormProvider {...methods}>

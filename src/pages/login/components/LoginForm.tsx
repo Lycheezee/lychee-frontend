@@ -9,19 +9,18 @@ import { styles } from '../styles/login.style';
 import { InputField } from '../../../components/InputField';
 import { Button } from '../../../components/Button';
 import { loginSchema } from '../schemas/login.schema';
-import { useLogin } from '~/hooks/useAuth';
+import authService from '~/services/auth.service';
 import { ROUTES } from '../../../constants/routes';
 import { clearProgress } from '../../register/RegisterFlow';
 
 export function LoginForm() {
   const navigation = useNavigation();
   const [error, setError] = useState<string | null>(null);
-  const loginMutation = useLogin();
 
   const methods = useForm<LoginData>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      email: 'linh070600@gmail.com',
+      email: 'linh0806@gmail.com',
       password: 'linhlinh',
     },
   });
@@ -30,9 +29,8 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginData) => {
     try {
-      setError(null);
-      const user = await loginMutation.mutateAsync(data);
-
+      await authService.login(data);
+      const user = await authService.getUser();
       if (!user) {
         return setError('User data not found after login');
       }
@@ -79,11 +77,12 @@ export function LoginForm() {
           secureTextEntry
         />
         {error && <Text style={styles.errorText}>{error}</Text>}
-        <Button onPress={handleSubmit(onSubmit)} disabled={loginMutation.isPending}>
-          {loginMutation.isPending ? 'Logging in...' : 'Login'}
-        </Button>
+        <Button onPress={handleSubmit(onSubmit)}>Login</Button>
         <TouchableOpacity onPress={handleNavigateToRegister}>
-          <Text style={styles.switchText}>Don&apos;t have an account? Register</Text>
+          <Text style={styles.switchText}>
+            Don&apos;t have an account?{' '}
+            <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>Register</Text>
+          </Text>
         </TouchableOpacity>
       </View>
     </FormProvider>

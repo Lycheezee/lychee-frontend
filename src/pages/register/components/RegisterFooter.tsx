@@ -12,7 +12,10 @@ export function RegisterFooter() {
 
   return (
     <TouchableOpacity style={styles.container} onPress={handleNavigateToLogin}>
-      <Text style={styles.text}>Already have an account? Login</Text>
+      <Text style={styles.text}>
+        Already have an account?{' '}
+        <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>Login</Text>
+      </Text>
     </TouchableOpacity>
   );
 }

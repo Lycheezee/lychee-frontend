@@ -26,7 +26,7 @@ export const InputField = ({ name = '', label, ...props }: InputFieldProps) => {
             style={styles.input}
             error={!!errors[name]}
             {...props}
-          />{' '}
+          />
           {errors[name] && (
             <Text style={{ color: COLORS.ERROR, marginBottom: 8, fontSize: 12 }}>
               {errors[name]?.message as string}

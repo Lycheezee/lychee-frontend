@@ -18,9 +18,7 @@ export const useUpdateUser = () => {
     mutationFn: ({ payload, params }: { payload: UserUpdatePayload; params?: UserUpdateParams }) =>
       userService.updateUser(payload, params),
     onSuccess: (updatedUser) => {
-      // Update user query cache with new data
       queryClient.setQueryData(authKeys.user(), updatedUser);
-      // Invalidate to ensure fresh data
       queryClient.invalidateQueries({ queryKey: authKeys.user() });
     },
     onError: (error) => {

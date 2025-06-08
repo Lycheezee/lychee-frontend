@@ -61,20 +61,18 @@ const UserProfile = () => {
               label="Logout"
               iconName="log-out-outline"
               onPress={() => setLogoutModalVisible(true)}
-              isDanger={true}
+              isDanger
             />
           </View>
         </ScrollView>
       </View>
 
-      {/* Logout Confirmation Modal */}
       <LogoutModal
         visible={logoutModalVisible}
         onCancel={() => setLogoutModalVisible(false)}
         onConfirm={handleLogout}
       />
 
-      {/* Bottom Navigation */}
       <View style={styles.bottomNavContainer}>
         <BottomNav active="UserProfile" />
       </View>

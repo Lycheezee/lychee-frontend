@@ -4,6 +4,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 import { useMealStatusUpdate } from '../../../../hooks/useMeal';
 import { COLORS, withAlpha } from '../../../../constants/colors';
+import { useDashboardData } from '../../hooks/useDashboardData';
+import { useState } from 'react';
+import { calculateTotalNutrition } from '~/utils';
 
 interface MealProgressProps {
   dailyProgress: MealPlan;
@@ -16,7 +19,13 @@ export const MealProgress = ({
   dietPlanId,
   onMealStatusUpdate,
 }: MealProgressProps) => {
-  const { meals, percentageOfCompletions } = dailyProgress;
+  const { refetch } = useDashboardData();
+
+  const [meals, setMeals] = useState(dailyProgress.meals || []);
+  const [percentageOfCompletions, setPercentageOfCompletions] = useState(
+    dailyProgress.percentageOfCompletions || 0
+  );
+  // calculateTotalNutrition
   const updateMealStatus = useMealStatusUpdate();
 
   const handleMealToggle = async (mealId: string, currentStatus: EMealStatus) => {
@@ -25,13 +34,14 @@ export const MealProgress = ({
       return;
     }
 
+    const originalPlan = { ...dailyProgress };
+
     try {
       const newStatus =
         currentStatus === EMealStatus.COMPLETED ? EMealStatus.NOT_COMPLETED : EMealStatus.COMPLETED;
 
       const date = moment(dailyProgress.date).format('YYYY-MM-DD');
 
-      // Update local state optimistically first
       const updatedMeals = meals.map((meal) =>
         meal._id === mealId ? { ...meal, status: newStatus } : meal
       );
@@ -41,18 +51,16 @@ export const MealProgress = ({
       ).length;
       const newPercentage = Math.round((completedMeals / updatedMeals.length) * 100);
 
-      const updatedPlan: MealPlan = {
+      const optimisticPlan: MealPlan = {
         ...dailyProgress,
         meals: updatedMeals,
         percentageOfCompletions: newPercentage,
       };
 
-      // Call callback to update parent component immediately
-      if (onMealStatusUpdate) {
-        onMealStatusUpdate(updatedPlan);
-      }
+      setMeals(updatedMeals);
+      setPercentageOfCompletions(newPercentage);
+      if (onMealStatusUpdate) onMealStatusUpdate(optimisticPlan);
 
-      // Then make the API call
       await updateMealStatus.mutateAsync({
         dietPlanId,
         payload: {
@@ -61,12 +69,12 @@ export const MealProgress = ({
           status: newStatus,
         },
       });
+      refetch();
     } catch (error) {
-      console.error('Failed to update meal status:', error);
-      // Revert optimistic update on error
-      if (onMealStatusUpdate) {
-        onMealStatusUpdate(dailyProgress);
-      }
+      console.error(error);
+      setMeals(originalPlan.meals);
+      setPercentageOfCompletions(originalPlan.percentageOfCompletions);
+      if (onMealStatusUpdate) onMealStatusUpdate(originalPlan);
     }
   };
 

@@ -17,6 +17,7 @@ export class AuthService {
   storeAuthInCookie(user: AuthUser) {
     const { accessToken, ...rest } = user;
     if (accessToken) cookiesService.setItem('accessToken', accessToken);
+    console.log(accessToken)
     if (rest) cookiesService.setItem('userAuth', rest);
   }
 

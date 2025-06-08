@@ -15,29 +15,31 @@ export const mealHistoryKeys = {
  * Returns the complete DietPlan object containing all meal data
  */
 export const useMealHistory = () => {
-  const { data, isSuccess, isLoading, error } = useUser();
+  const { data, isLoading, error } = useUser();
 
   return useQuery<DietPlan | null>({
-    queryKey: mealHistoryKeys.byUserId(data.dietPlan._id || ''),
+    queryKey: mealHistoryKeys.byUserId(data.dietPlan?._id || ''),
     queryFn: async () => {
-      const userData = data;
-
-      if (!userData?._id) return null;
-
       try {
-        const dietPlan = await dietPlanService.getDietPlan(data.dietPlan._id);
+        const dietPlan = await dietPlanService.getDietPlan(data.dietPlan?._id);
         return dietPlan;
       } catch (error) {
         console.error('Failed to fetch diet plan:', error);
         throw error;
       }
     },
-    enabled: isSuccess && !!data?._id,
+    enabled: !!data.dietPlan?._id,
     staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: true, 
+    refetchOnWindowFocus: true,
     meta: {
       userLoading: isLoading,
       userError: error,
     },
   });
+};
+
+export const mealHistoryWithDetailsKeys = {
+  all: ['mealHistoryWithDetails'] as const,
+  list: () => [...mealHistoryWithDetailsKeys.all, 'list'] as const,
+  byUserId: (userId: string) => [...mealHistoryWithDetailsKeys.all, userId] as const,
 };

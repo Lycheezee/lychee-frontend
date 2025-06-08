@@ -29,12 +29,10 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (payload: UserLoginReq) => authService.login(payload),
     onSuccess: (userData) => {
-      // Update user query cache with new data
       queryClient.setQueryData(authKeys.user(), userData);
     },
     onError: (error) => {
       console.error('Login failed:', error);
-      // Clear any cached user data on login failure
       queryClient.removeQueries({ queryKey: authKeys.user() });
     },
   });
@@ -67,7 +65,6 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: () => authService.logoutUser(),
     onSuccess: () => {
-      // Clear all cached data on logout
       queryClient.clear();
     },
     onError: (error) => {

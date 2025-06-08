@@ -55,7 +55,7 @@ const Food = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        {/* Coming Soon - Meal Planner */}{' '}
+        {/* Coming Soon - Meal Planner */}
         {/* <TouchableOpacity
           style={[styles.card, styles.plannerCard]}>
           <View style={styles.cardContent}>

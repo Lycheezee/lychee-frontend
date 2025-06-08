@@ -8,6 +8,7 @@ import { Provider } from 'react-native-paper';
 import { NumberInputField } from '~/components/NumberInputField';
 import { RegisterLayout } from '../components/RegisterLayout';
 import { IUser } from '~/types/user';
+import authService from '~/services/auth.service';
 
 export interface MealPreferencesReq {
   mealPlanDays?: number;
@@ -32,6 +33,7 @@ export function RegisterStep4({
   });
 
   const { handleSubmit } = methods;
+
   const onSubmit = async (data: any) => {
     try {
       const user = await updateUserMutation.mutateAsync({
@@ -39,13 +41,8 @@ export function RegisterStep4({
         params: { type: 'mealLength' },
       });
       if (!user) return;
-
-      // Transform data to match IUser structure
-      const userData: Partial<IUser> = {
-        mealPlanDays: data.mealPlanDays || 7,
-        dietPlan: user.dietPlan,
-      };
-      onNext(userData);
+      authService.storeAuthInCookie(defaultValues);
+      onNext();
     } catch (err) {
       console.error('Error updating meal plan preferences:', err);
     }

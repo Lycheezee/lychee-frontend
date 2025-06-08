@@ -27,11 +27,7 @@ const FoodCollection = () => {
     if (!foods) return [];
     if (!searchQuery.trim()) return foods;
 
-    return foods.filter(
-      (food) =>
-        food.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        food.descriptions.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return foods.filter((food) => food.name.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [foods, searchQuery]);
 
   const renderFoodItem = ({ item }) => (
@@ -50,7 +46,6 @@ const FoodCollection = () => {
         <Text style={{ fontSize: 16, fontWeight: 'bold', color: COLORS.TEXT_PRIMARY }}>
           {item.name}
         </Text>
-        {/* <Text style={{ color: COLORS.TEXT_SECONDARY, marginTop: 4 }}>{item.descriptions}</Text> */}
         <View style={{ flexDirection: 'row', marginTop: 6, flexWrap: 'wrap' }}>
           <Text style={{ marginRight: 10, color: COLORS.TEXT_PRIMARY }}>
             Calories: {formatNutritionValue(item.nutrition.calories, 'calories', 0)}
@@ -113,14 +108,13 @@ const FoodCollection = () => {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.CREAM} barStyle="dark-content" /> {/* Header */}
+      <StatusBar backgroundColor={COLORS.CREAM} barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} color={COLORS.TEXT_PRIMARY} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Food Collection</Text>
       </View>
-      {/* Search Bar */}
       <View
         style={{
           paddingHorizontal: 16,
@@ -131,9 +125,11 @@ const FoodCollection = () => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+
             backgroundColor: COLORS.CREAM,
             borderRadius: 10,
             paddingHorizontal: 12,
+            marginTop: 16,
             paddingVertical: 8,
             borderWidth: 1,
             borderColor: withAlpha(COLORS.BORDER_LIGHT, 0.3),
@@ -157,7 +153,6 @@ const FoodCollection = () => {
           )}
         </View>
       </View>
-      {/* Content */}
       <FlatList
         data={filteredFoods}
         keyExtractor={(item) => item._id}
@@ -184,7 +179,6 @@ const FoodCollection = () => {
           </View>
         )}
       />
-      {/* Bottom Navigation */}
       <BottomNav active="Food" />
     </SafeAreaView>
   );

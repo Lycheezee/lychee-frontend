@@ -8,6 +8,7 @@ import { RegisterStep4 } from './steps/RegisterStep4';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ROUTES } from '../../constants/routes';
 import { IUser } from '~/types/user';
+import authService from '~/services/auth.service';
 
 export const clearProgress = async () => {
   try {
@@ -55,6 +56,7 @@ export default function RegisterFlow() {
       if (data) {
         const updatedData = { ...formData, ...data };
         setFormData(updatedData);
+        authService.storeAuthInCookie({ ...updatedData, accessToken: undefined } as any);
         await AsyncStorage.setItem('registration_data', JSON.stringify(updatedData));
       }
     } catch (error) {

@@ -23,7 +23,6 @@ export const useMealStatusUpdate = () => {
       payload: UpdateMealStatusPayload;
     }) => mealService.updateMealStatus(dietPlanId, payload),
     onSuccess: () => {
-      // Invalidate user data to refetch updated meal plans
       queryClient.invalidateQueries({ queryKey: authKeys.user() });
     },
     onError: (error) => {
