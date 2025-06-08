@@ -11,6 +11,7 @@ import {
 import { mockDailyProgress } from '../../mocks/dashboardMockData';
 import { useDashboardData } from './hooks/useDashboardData';
 import styles from './styles/dashboard.style';
+import { COLORS } from '../../constants/colors';
 
 /**
  * Main Dashboard component
@@ -31,12 +32,11 @@ export const Dashboard = () => {
 
   // Use today's meal plan from the meal history service, with mock data as fallback
   const dailyProgress = todayPlan || mockDailyProgress;
-
   if (isLoading) {
     return (
       <FormProvider {...methods}>
         <SafeAreaView style={styles.container}>
-          <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+          <StatusBar backgroundColor={COLORS.CREAM} barStyle="dark-content" />
           <LoadingState />
           <BottomNav active="Home" />
         </SafeAreaView>
@@ -48,7 +48,7 @@ export const Dashboard = () => {
     return (
       <FormProvider {...methods}>
         <SafeAreaView style={styles.container}>
-          <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+          <StatusBar backgroundColor={COLORS.CREAM} barStyle="dark-content" />
           <ErrorState message={error} onRetry={refetch} />
           <BottomNav active="Home" />
         </SafeAreaView>
@@ -59,7 +59,7 @@ export const Dashboard = () => {
   return (
     <FormProvider {...methods}>
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <StatusBar backgroundColor={COLORS.CREAM} barStyle="dark-content" />
         <ScrollView style={styles.scrollContent} showsVerticalScrollIndicator={false}>
           <WelcomeSection firstName={userInfo.firstName} />
           <MealProgress

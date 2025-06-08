@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { COLORS, withAlpha } from '../../constants/colors';
 
 export type BottomNavRoute = 'Home' | 'Food' | 'UserProfile';
 
@@ -40,7 +41,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ active }) => {
                     : 'person-outline'
             }
             size={28}
-            color={active === item.route ? '#00cba9' : '#aaa'}
+            color={active === item.route ? COLORS.PRIMARY : COLORS.TEXT_SECONDARY}
           />
         </TouchableOpacity>
       ))}
@@ -54,9 +55,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     height: 60,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.CREAM,
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: withAlpha(COLORS.BORDER_LIGHT, 0.5),
   },
   button: {
     flex: 1,

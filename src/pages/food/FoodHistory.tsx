@@ -14,6 +14,7 @@ import styles from './styles/food.style';
 import { useMealHistory } from '../../hooks/useMealHistory';
 import { MealPlan } from '../../types/meal';
 import { ROUTES } from '../../constants/routes';
+import { COLORS } from '../../constants/colors';
 
 const FoodHistory = () => {
   // @ts-ignore - Allow navigation to the new screen
@@ -82,7 +83,7 @@ const FoodHistory = () => {
   ); // Render loading state
   const renderLoading = () => (
     <View style={styles.centerContainer}>
-      <ActivityIndicator size="large" color="#4CAF50" />
+      <ActivityIndicator size="large" color={COLORS.PRIMARY} />
       <Text style={styles.loadingText}>Loading meal history...</Text>
     </View>
   );
@@ -90,7 +91,7 @@ const FoodHistory = () => {
   // Render error state
   const renderError = () => (
     <View style={styles.centerContainer}>
-      <Icon name="alert-circle-outline" size={50} color="#f44336" />
+      <Icon name="alert-circle-outline" size={50} color={COLORS.ERROR} />
       <Text style={styles.errorText}>Failed to load meal history</Text>
       <Text style={styles.errorSubtext}>{error?.message || 'Please try again'}</Text>
       <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
@@ -98,11 +99,10 @@ const FoodHistory = () => {
       </TouchableOpacity>
     </View>
   );
-
   // Render empty state
   const renderEmpty = () => (
     <View style={styles.centerContainer}>
-      <Icon name="calendar-outline" size={50} color="#757575" />
+      <Icon name="calendar-outline" size={50} color={COLORS.TEXT_SECONDARY} />
       <Text style={styles.emptyText}>No meal history found</Text>
       <Text style={styles.emptySubtext}>Your meal plan will appear here once available</Text>
     </View>
@@ -110,16 +110,16 @@ const FoodHistory = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <StatusBar backgroundColor={COLORS.CREAM} barStyle="dark-content" />
 
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#333" />
+          <Icon name="arrow-back" size={24} color={COLORS.TEXT_PRIMARY} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Meal History</Text>
         <TouchableOpacity style={styles.refreshButton} onPress={() => refetch()}>
-          <Icon name="refresh" size={24} color="#333" />
+          <Icon name="refresh" size={24} color={COLORS.TEXT_PRIMARY} />
         </TouchableOpacity>
       </View>
 

@@ -1,5 +1,6 @@
 import { View, Text, ActivityIndicator } from 'react-native';
 import styles from '../../styles/dashboard.style';
+import { COLORS } from '../../../../constants/colors';
 
 interface LoadingStateProps {
   message?: string;
@@ -14,7 +15,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
 }) => {
   return (
     <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" color="#007AFF" />
+      <ActivityIndicator size="large" color={COLORS.PRIMARY} />
       <Text style={styles.loadingText}>{message}</Text>
     </View>
   );

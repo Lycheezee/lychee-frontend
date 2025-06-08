@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { BottomNav } from '../../components/BottomNav';
 import { ROUTES } from '../../constants/routes';
 import styles from './styles/food.style';
+import { COLORS } from '../../constants/colors';
 
 const Food = () => {
   const navigation = useNavigation();
@@ -15,10 +16,9 @@ const Food = () => {
   const navigateToCollection = () => {
     navigation.navigate(ROUTES.FOOD_COLLECTION as never);
   };
-
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <StatusBar backgroundColor={COLORS.CREAM} barStyle="dark-content" />
 
       {/* Header */}
       <View style={styles.header}>
@@ -32,7 +32,7 @@ const Food = () => {
         {/* Meals History Card */}
         <TouchableOpacity style={[styles.card, styles.historyCard]} onPress={navigateToHistory}>
           <View style={styles.cardContent}>
-            <Icon name="time-outline" size={40} color="#2E7D32" style={styles.cardIcon} />
+            <Icon name="time-outline" size={40} color={COLORS.FRESH_LEAF} style={styles.cardIcon} />
             <Text style={styles.cardTitle}>Meals History</Text>
             <Text style={styles.cardDescription}>
               View your previous meals and track your eating habits
@@ -45,7 +45,12 @@ const Food = () => {
           style={[styles.card, styles.collectionCard]}
           onPress={navigateToCollection}>
           <View style={styles.cardContent}>
-            <Icon name="restaurant-outline" size={40} color="#1565C0" style={styles.cardIcon} />
+            <Icon
+              name="restaurant-outline"
+              size={40}
+              color={COLORS.PASSATA}
+              style={styles.cardIcon}
+            />
             <Text style={styles.cardTitle}>Food Collection</Text>
             <Text style={styles.cardDescription}>
               Browse through our collection of healthy meal options

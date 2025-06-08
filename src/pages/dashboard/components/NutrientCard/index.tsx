@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { COLORS, withAlpha } from '../../../../constants/colors';
 
 interface NutrientCardProps {
   label: string;
@@ -21,7 +22,7 @@ export const NutrientCard: React.FC<NutrientCardProps> = ({ label, value, unit =
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFD9D9',
+    backgroundColor: withAlpha(COLORS.MINTY, 0.4),
     borderRadius: 15,
     padding: 12,
     margin: 5,
@@ -30,16 +31,16 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: '45%',
     borderWidth: 1,
-    borderColor: '#FFB6B6',
+    borderColor: COLORS.MINTY,
   },
   value: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
   },
   label: {
     fontSize: 16,
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
     marginBottom: 2,
   },
 });

@@ -1,26 +1,27 @@
 import { StyleSheet, Platform } from 'react-native';
+import { COLORS, withAlpha } from '../../../constants/colors';
 
 const dashboardStyles = StyleSheet.create({
   container: {
     flex: 1,
     height: '100%',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: COLORS.BACKGROUND,
   },
   scrollContent: {
     flex: 1,
     paddingBottom: 20,
   },
   header: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.CREAM,
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: withAlpha(COLORS.BORDER_LIGHT, 0.5),
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
   },
   welcomeContainer: {
     paddingHorizontal: 20,
@@ -29,22 +30,22 @@ const dashboardStyles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 18,
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
   },
   usernameText: {
     fontWeight: 'bold',
   },
   mealProgressContainer: {
     marginHorizontal: 20,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.CREAM,
     borderRadius: 20,
     padding: 16,
     marginVertical: 10,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: withAlpha(COLORS.BORDER_LIGHT, 0.5),
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: COLORS.TEXT_PRIMARY,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
@@ -58,6 +59,7 @@ const dashboardStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     marginBottom: 16,
+    color: COLORS.TEXT_PRIMARY,
   },
   nutrientsContainer: {
     paddingHorizontal: 16,
@@ -71,29 +73,30 @@ const dashboardStyles = StyleSheet.create({
   },
   bottomNav: {
     borderTopWidth: 1,
-    borderColor: '#ddd',
-    backgroundColor: 'white',
+    borderColor: withAlpha(COLORS.BORDER_LIGHT, 0.5),
+    backgroundColor: COLORS.CREAM,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: COLORS.BACKGROUND,
     paddingHorizontal: 20,
   },
   loadingText: {
     marginTop: 12,
     fontSize: 16,
-    color: '#666',
+    color: COLORS.TEXT_SECONDARY,
     textAlign: 'center',
   },
   errorText: {
     fontSize: 48,
     marginBottom: 16,
+    color: COLORS.ERROR,
   },
   errorMessage: {
     fontSize: 16,
-    color: '#d32f2f',
+    color: COLORS.ERROR,
     textAlign: 'center',
     marginBottom: 20,
     lineHeight: 22,
@@ -101,11 +104,11 @@ const dashboardStyles = StyleSheet.create({
   retryButton: {
     paddingHorizontal: 24,
     paddingVertical: 12,
-    backgroundColor: '#007AFF',
+    backgroundColor: COLORS.PRIMARY,
     borderRadius: 8,
   },
   retryButtonText: {
-    color: 'white',
+    color: COLORS.TEXT_LIGHT,
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',

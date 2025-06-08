@@ -3,6 +3,7 @@ import { MealPlan, EMealStatus } from '../../../../types/meal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 import { useMealStatusUpdate } from '../../../../hooks/useMeal';
+import { COLORS, withAlpha } from '../../../../constants/colors';
 
 interface MealProgressProps {
   dailyProgress: MealPlan;
@@ -73,9 +74,9 @@ export const MealProgress = ({
     <View style={styles.container}>
       <Text style={styles.title}>This is your daily target meals:</Text>
       <View style={styles.mealsList}>
-        {meals.map((meal) => (
+        {meals.map((meal, index) => (
           <TouchableOpacity
-            key={meal._id}
+            key={`${meal._id}-${index}`}
             style={styles.mealRow}
             onPress={() => handleMealToggle(meal._id, meal.status)}
             activeOpacity={0.7}>
@@ -105,14 +106,14 @@ export const MealProgress = ({
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.CREAM,
     borderRadius: 20,
     marginHorizontal: 20,
     marginVertical: 10,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: withAlpha(COLORS.BORDER_LIGHT, 0.5),
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: COLORS.TEXT_PRIMARY,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     marginBottom: 16,
-    color: '#333',
+    color: COLORS.TEXT_PRIMARY,
   },
   mealsList: {
     marginBottom: 12,
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
   mealName: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#000',
+    color: COLORS.TEXT_PRIMARY,
   },
   checkbox: {
     width: 24,
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   checkedBox: {
     width: 18,
     height: 18,
-    backgroundColor: '#FFD700',
+    backgroundColor: COLORS.PRIMARY,
     borderRadius: 3,
     justifyContent: 'center',
     alignItems: 'center',
@@ -155,8 +156,8 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     borderWidth: 1,
-    borderColor: '#FFD700',
-    backgroundColor: '#FFFFE0',
+    borderColor: COLORS.BORDER_DARK,
+    backgroundColor: withAlpha(COLORS.MINTY, 0.3),
     borderRadius: 3,
   },
   progressBarContainer: {
@@ -164,13 +165,13 @@ const styles = StyleSheet.create({
   },
   progressBackground: {
     height: 15,
-    backgroundColor: '#FFFFE0',
+    backgroundColor: withAlpha(COLORS.MINTY, 0.3),
     borderRadius: 10,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#ADD8E6',
+    backgroundColor: COLORS.PRIMARY,
     borderRadius: 10,
   },
 });

@@ -14,6 +14,7 @@ import { BottomNav } from '../../components/BottomNav';
 import styles from './styles/food.style';
 import { Meal, EMealStatus } from '../../types/meal';
 import { useMealHistory } from '../../hooks/useMealHistory';
+import { COLORS } from '../../constants/colors';
 
 /**
  * Food Day Details Screen
@@ -30,7 +31,6 @@ const FoodDayDetails = () => {
     (day) =>
       new Date(day.date).toISOString().split('T')[0] === new Date(date).toISOString().split('T')[0]
   );
-
   // Render meal item with status indicator
   const renderMealItem = ({ item }: { item: Meal }) => (
     <View style={styles.mealItemContainer}>
@@ -44,7 +44,7 @@ const FoodDayDetails = () => {
         <Icon
           name={item.status === EMealStatus.COMPLETED ? 'checkmark-circle' : 'ellipse-outline'}
           size={24}
-          color={item.status === EMealStatus.COMPLETED ? '#4CAF50' : '#ccc'}
+          color={item.status === EMealStatus.COMPLETED ? COLORS.SUCCESS : COLORS.BORDER_LIGHT}
         />
       </View>
     </View>
@@ -53,7 +53,7 @@ const FoodDayDetails = () => {
   // Render loading state
   const renderLoading = () => (
     <View style={styles.centerContainer}>
-      <ActivityIndicator size="large" color="#4CAF50" />
+      <ActivityIndicator size="large" color={COLORS.PRIMARY} />
       <Text style={styles.loadingText}>Loading meal details...</Text>
     </View>
   );
@@ -61,7 +61,7 @@ const FoodDayDetails = () => {
   // Render error state
   const renderError = () => (
     <View style={styles.centerContainer}>
-      <Icon name="alert-circle-outline" size={50} color="#f44336" />
+      <Icon name="alert-circle-outline" size={50} color={COLORS.ERROR} />
       <Text style={styles.errorText}>Failed to load meal details</Text>
       <Text style={styles.errorSubtext}>{error?.message || 'Please try again'}</Text>
       <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
@@ -136,11 +136,10 @@ const FoodDayDetails = () => {
       </View>
     );
   };
-
   // Render empty state when no meals are found
   const renderEmpty = () => (
     <View style={styles.centerContainer}>
-      <Icon name="restaurant-outline" size={50} color="#757575" />
+      <Icon name="restaurant-outline" size={50} color={COLORS.TEXT_SECONDARY} />
       <Text style={styles.emptyText}>No meals found for this day</Text>
       <Text style={styles.emptySubtext}>This day might not have any planned meals</Text>
     </View>
@@ -148,16 +147,16 @@ const FoodDayDetails = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <StatusBar backgroundColor={COLORS.CREAM} barStyle="dark-content" />
 
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#333" />
+          <Icon name="arrow-back" size={24} color={COLORS.TEXT_PRIMARY} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Daily Meals</Text>
         <TouchableOpacity style={styles.refreshButton} onPress={() => refetch()}>
-          <Icon name="refresh" size={24} color="#333" />
+          <Icon name="refresh" size={24} color={COLORS.TEXT_PRIMARY} />
         </TouchableOpacity>
       </View>
 
