@@ -6,13 +6,19 @@ import { useMealStatusUpdate } from '../../../../hooks/useMeal';
 import { COLORS, withAlpha } from '../../../../constants/colors';
 import { useDashboardData } from '../../hooks/useDashboardData';
 import { useState } from 'react';
-import { calculateTotalNutrition } from '~/utils';
+import capitalize from 'lodash/capitalize';
 
 interface MealProgressProps {
   dailyProgress: MealPlan;
   dietPlanId?: string;
   onMealStatusUpdate?: (updatedPlan: MealPlan) => void;
 }
+
+export const mealNameFormat = (name: string) => {
+  // Format the meal name if needed, e.g., truncate or capitalize
+  const formatedName = name.split(',').join(' ').trim();
+  return capitalize(formatedName);
+};
 
 export const MealProgress = ({
   dailyProgress,
@@ -88,7 +94,7 @@ export const MealProgress = ({
             style={styles.mealRow}
             onPress={() => handleMealToggle(meal._id, meal.status)}
             activeOpacity={0.7}>
-            <Text style={styles.mealName}>{meal.name}</Text>
+            <Text style={styles.mealName}>{mealNameFormat(meal.name)}</Text>
             <View style={styles.checkbox}>
               {meal.status === EMealStatus.COMPLETED ? (
                 <View style={styles.checkedBox}>
@@ -142,8 +148,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   mealName: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 14,
+    maxWidth: '80%',
     color: COLORS.TEXT_PRIMARY,
   },
   checkbox: {

@@ -9,6 +9,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { ROUTES } from '../../constants/routes';
 import { IUser } from '~/types/user';
 import authService from '~/services/auth.service';
+import { useUser } from '~/hooks';
 
 export const clearProgress = async () => {
   try {
@@ -24,6 +25,8 @@ export default function RegisterFlow() {
   const route = useRoute();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<Partial<IUser>>({});
+
+  const { refetch: refetchUser } = useUser();
 
   useEffect(() => {
     const initializeFlow = async () => {
@@ -75,7 +78,9 @@ export default function RegisterFlow() {
   const handleNext = async (data?: Partial<IUser>) => {
     if (step === 5) {
       await clearProgress();
-      navigation.navigate(ROUTES.DASHBOARD as never);
+      refetchUser();
+      // @ts-ignore
+      navigation.navigate(ROUTES.DASHBOARD, { screen: ROUTES.HOME });
       return;
     }
 

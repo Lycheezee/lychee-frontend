@@ -16,6 +16,7 @@ import styles from './styles/food.style';
 import { COLORS, withAlpha } from '../../constants/colors';
 import { formatNutritionValue } from '../../utils/nutritionFormatter';
 import { useAllFood } from '../../hooks';
+import { mealNameFormat } from '../dashboard/components/MealProgress';
 
 const FoodCollection = () => {
   const navigation = useNavigation();
@@ -44,15 +45,15 @@ const FoodCollection = () => {
       }}>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <Text style={{ fontSize: 16, fontWeight: 'bold', color: COLORS.TEXT_PRIMARY }}>
-          {item.name}
+          {mealNameFormat(item.name)}
         </Text>
         <View style={{ flexDirection: 'row', marginTop: 6, flexWrap: 'wrap' }}>
           <Text style={{ marginRight: 10, color: COLORS.TEXT_PRIMARY }}>
             Calories: {formatNutritionValue(item.nutrition.calories, 'calories', 0)}
           </Text>
-          <Text style={{ marginRight: 10, color: COLORS.TEXT_PRIMARY }}>
+          {/* <Text style={{ marginRight: 10, color: COLORS.TEXT_PRIMARY }}>
             Protein: {formatNutritionValue(item.nutrition.protein, 'protein')}
-          </Text>
+          </Text> */}
           <Text style={{ marginRight: 10, color: COLORS.TEXT_PRIMARY }}>
             Carbs: {formatNutritionValue(item.nutrition.carbohydrates, 'carbohydrates')}
           </Text>

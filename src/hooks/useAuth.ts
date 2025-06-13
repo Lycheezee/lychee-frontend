@@ -8,15 +8,12 @@ export const authKeys = {
   user: () => [...authKeys.all, 'user'] as const,
 };
 
-/**
- * Hook to get current user data
- */
 export const useUser = () => {
   return useQuery<IUser>({
     queryKey: authKeys.user(),
     queryFn: () => authService.getUser(),
     staleTime: 10 * 60 * 1000, // 10 minutes
-    retry: false, // Don't retry if user is not authenticated
+    refetchOnWindowFocus: true,
   });
 };
 

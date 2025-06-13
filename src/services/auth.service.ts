@@ -17,7 +17,7 @@ export class AuthService {
   storeAuthInCookie(user: AuthUser) {
     const { accessToken, ...rest } = user;
     if (accessToken) cookiesService.setItem('accessToken', accessToken);
-    console.log(accessToken)
+    console.log(rest);
     if (rest) cookiesService.setItem('userAuth', rest);
   }
 
@@ -27,6 +27,7 @@ export class AuthService {
   }
 
   async login(payload: UserLoginReq) {
+    console.log({BASE_URL})
     const url = `${BASE_URL}/login`;
     const { data } = await axios.post<AuthUser>(url, payload);
     this.storeAuthInCookie(data);

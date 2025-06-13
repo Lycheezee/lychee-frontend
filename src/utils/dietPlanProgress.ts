@@ -13,12 +13,18 @@ export interface ProgressResult {
  * @param dietPlan - The diet plan containing the meal plan array
  * @returns Progress information including completed days, remaining days, and percentage
  */
-export const calculateDietPlanProgress = (dietPlan?: DietPlan): ProgressResult => {
-  if (!dietPlan?.plan || dietPlan.plan.length === 0) {
-    return { remainingDays: 0, completedDays: 0, totalDays: 0, progressPercentage: 0 };
+export const calculateDietPlanProgress = (
+  dietPlan?: DietPlan,
+  totalLength?: number
+): ProgressResult => {
+  if (!dietPlan?.plan || !totalLength) {
+    return {
+      remainingDays: 0,
+      completedDays: 0,
+      totalDays: totalLength ?? 0,
+      progressPercentage: 0,
+    };
   }
-
-  const totalDays = dietPlan.plan.length;
 
   // Sort plan dates in ascending order using moment
   const sortedPlanDates = [...dietPlan.plan].sort(
@@ -35,9 +41,9 @@ export const calculateDietPlanProgress = (dietPlan?: DietPlan): ProgressResult =
   const daysSinceStart = today.diff(startDate, 'days');
 
   // Days completed is min of elapsed days and total days, with minimum of 0
-  const completedDays = Math.min(Math.max(0, daysSinceStart), totalDays);
-  const remainingDays = Math.max(0, totalDays - completedDays);
-  const progressPercentage = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
+  const completedDays = Math.min(Math.max(0, daysSinceStart), totalLength);
+  const remainingDays = Math.max(0, totalLength - completedDays);
+  const progressPercentage = totalLength > 0 ? Math.round((completedDays / totalLength) * 100) : 0;
 
-  return { remainingDays, completedDays, totalDays, progressPercentage };
+  return { remainingDays, completedDays, totalDays: totalLength, progressPercentage };
 };

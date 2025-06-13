@@ -14,6 +14,20 @@ export class DietPlanService {
     const { data } = await request.get(url);
     return data;
   }
+  /**
+   * Regenerate diet plan using AI model
+   * @param planId - The planId to regenerate
+   * @param aiModel - The AI model to use ('gemma', 'gemini', or 'lychee')
+   * @returns Promise<DietPlan> - The regenerated diet plan
+   */
+  async regenerateDietPlanWithAI(
+    planId: string,
+    aiModel: 'gemma' | 'gemini' | 'lychee'
+  ): Promise<DietPlan> {
+    const url = `${BASE_URL}/regen-with-ai/${planId}`;
+    const { data } = await request.post(url, { model: aiModel });
+    return data;
+  }
 }
 
 const dietPlanService = new DietPlanService();

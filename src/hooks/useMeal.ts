@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import mealService, { UpdateMealStatusPayload } from '../services/meal.service';
+import dietPlanService from '../services/dietPlan.service';
 import { authKeys } from './useAuth';
 
 // Query keys

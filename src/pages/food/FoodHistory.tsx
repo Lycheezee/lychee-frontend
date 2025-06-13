@@ -17,14 +17,20 @@ import { MealPlan } from '../../types/meal';
 import { ROUTES } from '../../constants/routes';
 import { COLORS } from '../../constants/colors';
 import { calculateDietPlanProgress } from '../../utils/dietPlanProgress';
+import { useUser } from '~/hooks';
 
 const FoodHistory = () => {
   // @ts-ignore - Allow navigation to the new screen
   const navigation = useNavigation();
+  const { data: user } = useUser();
   const { data: dietPlan, isLoading, isError, error, refetch } = useMealHistory();
 
-  const { remainingDays, completedDays, totalDays, progressPercentage } =
-    calculateDietPlanProgress(dietPlan);
+  const { remainingDays, completedDays, totalDays, progressPercentage } = calculateDietPlanProgress(
+    dietPlan,
+    user.mealPlanDays
+  );
+
+  const isGeneratingMeals = dietPlan.plan.length !== user.mealPlanDays;
 
   const getCompletionColor = (percentage: number) => {
     if (percentage >= 80) return styles.completionHigh.color;
@@ -67,6 +73,12 @@ const FoodHistory = () => {
     <View style={styles.centerContainer}>
       <ActivityIndicator size="large" color={COLORS.PRIMARY} />
       <Text style={styles.loadingText}>Loading meal history...</Text>
+    </View>
+  );
+
+  const generatingLoading = () => (
+    <View style={styles.centerContainer}>
+      <Text style={styles.loadingText}>More meals are being generating at the moment...</Text>
     </View>
   );
 
@@ -119,6 +131,8 @@ const FoodHistory = () => {
           contentContainerStyle={{ paddingBottom: 20 }}
         />
       )}
+
+      {isGeneratingMeals && generatingLoading()}
 
       <BottomNav active="Food" />
     </SafeAreaView>

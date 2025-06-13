@@ -106,12 +106,11 @@ const foodStyles = StyleSheet.create({
   comingSoonText: {
     color: COLORS.TEXT_LIGHT,
     fontSize: 12,
-    fontWeight: 'bold',
-  },
+    fontWeight: 'bold',  },
   // New styles for meal history loading/error states
   centerContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     padding: 20,
   },

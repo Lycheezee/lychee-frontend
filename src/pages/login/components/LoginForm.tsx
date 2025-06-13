@@ -20,7 +20,7 @@ export function LoginForm() {
   const methods = useForm<LoginData>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      email: 'linh0806@gmail.com',
+      email: 'linh130600@gmail.com',
       password: 'linhlinh',
     },
   });

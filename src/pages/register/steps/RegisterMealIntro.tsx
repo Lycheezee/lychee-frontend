@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Provider } from 'react-native-paper';
 import { RegisterLayout } from '../components/RegisterLayout';
 import { Button } from '../../../components/Button';
@@ -9,9 +9,16 @@ import { COLORS } from '../../../constants/colors';
 import { DietPlan } from '~/types/meal';
 import { useUser } from '~/hooks/useAuth';
 
-// Interface for registration data that includes API response fields
+const displayNutrients: (keyof Nutrition)[] = [
+  'calories',
+  'carbohydrates',
+  'fat',
+  'protein',
+  'sugars',
+  'cholesterol',
+];
+
 interface RegistrationData {
-  // IUser fields
   email?: string;
   firstName?: string;
   lastName?: string;
@@ -19,9 +26,8 @@ interface RegistrationData {
   bodyInfo?: any;
   mealPreferences?: any;
 
-  // Additional API response fields
   nutritionsPerDay?: Nutrition;
-  dietPlan?: DietPlan; // Array from API response
+  dietPlan?: DietPlan;
 }
 
 interface MealItemProps {
@@ -30,7 +36,7 @@ interface MealItemProps {
 
 const MealItem = ({ name }: MealItemProps) => (
   <View>
-    <Text style={styles.mealItem}>{name}</Text>
+    <Text style={styles.mealItem}>- {name}</Text>
   </View>
 );
 
@@ -45,7 +51,6 @@ export function RegisterMealIntro({
 }) {
   const { data: user, isLoading: loading } = useUser();
 
-  // Show loading state while fetching user data
   if (loading) {
     return (
       <Provider>
@@ -58,20 +63,18 @@ export function RegisterMealIntro({
     );
   }
 
-  // Get data from previous step (RegisterStep3) or from user's diet plan
   const firstMeals =
     defaultValues?.dietPlan?.plan?.[0]?.meals || user?.dietPlan?.plan?.[0]?.meals || [];
   const nutritionsPerDay =
     defaultValues?.dietPlan?.nutritionsPerDay || user?.dietPlan?.nutritionsPerDay;
 
-  // Extract meal names from diet plan with better handling for different structures
   const mealNames = firstMeals
     ? firstMeals.map((meal) => {
         if (meal.name) return meal.name;
         return 'Unknown Meal';
       })
-    : ['Eggs', 'Coconut', 'Water', 'Potatoes', 'Beef', 'Rice']; // Fallback data
-  // Use real nutrition data if available, otherwise use sample data
+    : ['Eggs', 'Coconut', 'Water', 'Potatoes', 'Beef', 'Rice'];
+
   const nutritionData: Nutrition = nutritionsPerDay
     ? {
         calories: nutritionsPerDay.calories || 0,
@@ -85,7 +88,6 @@ export function RegisterMealIntro({
         waterIntake: nutritionsPerDay.waterIntake || 0,
       }
     : {
-        // Fallback sample data
         calories: 2000,
         carbohydrates: 250,
         fat: 65,
@@ -96,54 +98,56 @@ export function RegisterMealIntro({
         sodium: 2300,
         waterIntake: 2000,
       };
-  // Display only the main nutrients for the UI
-  const displayNutrients: (keyof Nutrition)[] = [
-    'calories',
-    'carbohydrates',
-    'fat',
-    'protein',
-    'sugars',
-    'cholesterol',
-  ];
 
   return (
     <Provider>
       <RegisterLayout title="Your First Meal" onBack={onBack}>
-        <View style={styles.container}>
-          <View style={styles.mealBox}>
-            <Text style={styles.subtitle}>
-              {firstMeals.length > 0
-                ? 'Your personalized meal plan includes:'
-                : 'Sample meals include:'}
+        <ScrollView
+          style={styles.scrollContainer}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <View style={styles.mealBox}>
+              <Text style={styles.subtitle}>
+                {firstMeals.length > 0
+                  ? 'Your personalized meal plan includes:'
+                  : 'Sample meals include:'}
+              </Text>
+              <View style={styles.mealsContainer}>
+                {mealNames.map((meal, index) => (
+                  <MealItem key={index} name={meal} />
+                ))}
+              </View>
+            </View>
+            <Text style={styles.includesText}>
+              {nutritionsPerDay ? 'Your daily nutrition targets:' : 'These meals include of:'}
             </Text>
-            <View style={styles.mealsContainer}>
-              {mealNames.map((meal, index) => (
-                <MealItem key={index} name={meal} />
+            <View style={styles.nutritionGrid}>
+              {displayNutrients.map((nutrientKey, index) => (
+                <View key={index} style={styles.nutritionItem}>
+                  <Text style={styles.nutritionLabel}>
+                    {createNutritionLabel(nutrientKey, nutritionData[nutrientKey])}
+                  </Text>
+                </View>
               ))}
             </View>
+            <Button onPress={() => onNext()}>Next</Button>
           </View>
-          <Text style={styles.includesText}>
-            {nutritionsPerDay ? 'Your daily nutrition targets:' : 'These meals include of:'}
-          </Text>
-          <View style={styles.nutritionGrid}>
-            {displayNutrients.map((nutrientKey, index) => (
-              <View key={index} style={styles.nutritionItem}>
-                <Text style={styles.nutritionLabel}>
-                  {createNutritionLabel(nutrientKey, nutritionData[nutrientKey])}
-                </Text>
-              </View>
-            ))}
-          </View>
-          <Button onPress={() => onNext()}>Next</Button>
-        </View>
+        </ScrollView>
       </RegisterLayout>
     </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollContainer: {
     flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
+  },
+  container: {
     gap: 20,
   },
   mealBox: {
@@ -158,14 +162,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   mealsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
     gap: 8,
   },
   mealItem: {
-    fontSize: 16,
+    fontSize: 14,
     marginRight: 12,
-    fontWeight: 'bold',
   },
   includesText: {
     fontSize: 16,
@@ -185,6 +187,5 @@ const styles = StyleSheet.create({
   },
   nutritionLabel: {
     fontSize: 16,
-    // textAlign: 'center',
   },
 });

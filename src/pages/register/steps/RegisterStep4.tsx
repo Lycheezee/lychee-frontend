@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '../../../components/Button';
@@ -9,6 +9,11 @@ import { NumberInputField } from '~/components/NumberInputField';
 import { RegisterLayout } from '../components/RegisterLayout';
 import { IUser } from '~/types/user';
 import authService from '~/services/auth.service';
+
+const MEAL_LENGTH = {
+  MIN: 7,
+  MAX: 30,
+}
 
 export interface MealPreferencesReq {
   mealPlanDays?: number;
@@ -36,43 +41,48 @@ export function RegisterStep4({
 
   const onSubmit = async (data: any) => {
     try {
-      const user = await updateUserMutation.mutateAsync({
+      updateUserMutation.mutateAsync({
         payload: { mealPlanDays: data.mealPlanDays },
         params: { type: 'mealLength' },
       });
-      if (!user) return;
-      authService.storeAuthInCookie(defaultValues);
+      // if (!user) return;
+      // authService.storeAuthInCookie(defaultValues);
       onNext();
     } catch (err) {
       console.error('Error updating meal plan preferences:', err);
     }
   };
-
   return (
     <FormProvider {...methods}>
       <Provider>
         <RegisterLayout title="Your Goals" onBack={onBack}>
-          <View style={styles.container}>
-            <Text style={styles.description}>
-              How many days would you like your meal plan to cover? Choose between 1 and 30 days.
-            </Text>
+          <ScrollView
+            style={styles.scrollContainer}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+              <Text style={styles.description}>
+                How many days would you like your meal plan to cover? Choose between {MEAL_LENGTH.MIN} and {MEAL_LENGTH.MAX} days.
+              </Text>
 
-            <View style={styles.daysSelector}>
-              <Text style={styles.label}>Meal plan durations</Text>
-              <NumberInputField
-                name="mealPlanDays"
-                label="Number of Days"
-                placeholder="Number of days for your meal plan"
-                min={1}
-                max={30}
-                allowDecimals={false}
-              />
+              <View style={styles.daysSelector}>
+                <Text style={styles.label}>Meal plan durations</Text>
+                <NumberInputField
+                  name="mealPlanDays"
+                  label="Number of Days"
+                  placeholder="Number of days for your meal plan"
+                  min={MEAL_LENGTH.MIN}
+                  max={MEAL_LENGTH.MAX}
+                  allowDecimals={false}
+                  disabled={updateUserMutation.isPending}
+                />
+              </View>
+
+              <Button onPress={handleSubmit(onSubmit)} disabled={updateUserMutation.isPending}>
+                {updateUserMutation.isPending ? 'Saving...' : 'Finish'}
+              </Button>
             </View>
-
-            <Button onPress={handleSubmit(onSubmit)} disabled={updateUserMutation.isPending}>
-              {updateUserMutation.isPending ? 'Saving...' : 'Finish'}
-            </Button>
-          </View>
+          </ScrollView>
         </RegisterLayout>
       </Provider>
     </FormProvider>
@@ -80,8 +90,14 @@ export function RegisterStep4({
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollContainer: {
     flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
+  },
+  container: {
     gap: 20,
   },
   description: {

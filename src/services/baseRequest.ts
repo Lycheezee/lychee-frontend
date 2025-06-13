@@ -2,7 +2,7 @@ import axios from 'axios';
 import cookieService from './cookie.service';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
-const TIMEOUT = 60000;
+const TIMEOUT = 120000;
 
 const request = axios.create({});
 

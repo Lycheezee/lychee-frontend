@@ -18,17 +18,17 @@ export const useMealHistory = () => {
   const { data, isLoading, error } = useUser();
 
   return useQuery<DietPlan | null>({
-    queryKey: mealHistoryKeys.byUserId(data.dietPlan?._id || ''),
+    queryKey: mealHistoryKeys.byUserId(data?.dietPlan?._id || ''),
     queryFn: async () => {
       try {
-        const dietPlan = await dietPlanService.getDietPlan(data.dietPlan?._id);
+        const dietPlan = await dietPlanService.getDietPlan(data?.dietPlan?._id);
         return dietPlan;
       } catch (error) {
         console.error('Failed to fetch diet plan:', error);
         throw error;
       }
     },
-    enabled: !!data.dietPlan?._id,
+    enabled: !!data?.dietPlan?._id,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: true,
     meta: {

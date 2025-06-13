@@ -94,8 +94,7 @@ const userProfileStyles = StyleSheet.create({
     }),
   },
   dangerButton: {
-    backgroundColor: withAlpha(COLORS.ERROR, 0.1),
-    borderColor: withAlpha(COLORS.ERROR, 0.3),
+    borderColor: COLORS.ERROR,
     borderWidth: 1,
   },
   buttonText: {
@@ -143,16 +142,148 @@ const userProfileStyles = StyleSheet.create({
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: COLORS.MINTY,
+    backgroundColor: COLORS.BACKGROUND,
+    borderWidth: 2,
+    borderColor: COLORS.BORDER_LIGHT,
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    marginTop: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.TEXT_PRIMARY,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   confirmButton: {
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    marginTop: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.TEXT_PRIMARY,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
     backgroundColor: COLORS.ERROR,
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.TEXT_PRIMARY,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   cancelButtonText: {
     color: COLORS.TEXT_PRIMARY,
+    fontSize: 16,
+    fontWeight: '600',
   },
   confirmButtonText: {
     color: COLORS.TEXT_LIGHT,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  // Settings Modal Styles
+  settingsModalContent: {
+    width: '90%',
+    backgroundColor: COLORS.CREAM,
+    borderRadius: 15,
+    padding: 24,
+    maxHeight: '80%',
+  },
+  settingsModalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  settingsModalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: COLORS.TEXT_PRIMARY,
+    flex: 1,
+  },
+  settingsModalSubtitle: {
+    fontSize: 16,
+    color: COLORS.TEXT_SECONDARY,
+    marginBottom: 24,
+    lineHeight: 22,
+  },
+  aiOptionsContainer: {
+    gap: 16,
+    marginBottom: 24,
+  },
+  aiOptionButton: {
+    backgroundColor: COLORS.BACKGROUND,
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: COLORS.BORDER_LIGHT,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.TEXT_PRIMARY,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
+  },
+  aiOptionContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  aiOptionText: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  aiOptionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: COLORS.TEXT_PRIMARY,
+    marginBottom: 4,
+  },
+  aiOptionDescription: {
+    fontSize: 14,
+    color: COLORS.TEXT_SECONDARY,
+    lineHeight: 18,
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: COLORS.TEXT_SECONDARY,
+    textAlign: 'center',
   },
 });
 
