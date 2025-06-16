@@ -15,6 +15,7 @@ import styles from './styles/food.style';
 import { Meal, EMealStatus } from '../../types/meal';
 import { useMealHistory } from '../../hooks/useMealHistory';
 import { COLORS } from '../../constants/colors';
+import { mealNameFormat } from '../dashboard/components/MealProgress';
 
 /**
  * Food Day Details Screen
@@ -35,7 +36,7 @@ const FoodDayDetails = () => {
   const renderMealItem = ({ item }: { item: Meal }) => (
     <View style={styles.mealItemContainer}>
       <View style={styles.mealItemContent}>
-        <Text style={styles.mealItemName}>{item.name}</Text>
+        <Text style={styles.mealItemName}>{mealNameFormat(item.name)}</Text>
         {item.nutrition && (
           <Text style={styles.mealItemCalories}>{item.nutrition.calories} calories</Text>
         )}

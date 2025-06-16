@@ -23,7 +23,7 @@ export default function RegisterPage({ onNext }: { onNext: (data?: Partial<IUser
   const methods = useForm<RegisterReq>({
     resolver: yupResolver(registerSchema),
     defaultValues: {
-      email: 'linh130600@gmail.com',
+      email: 'linh140600@gmail.com',
       password: 'linhlinh',
       confirmPassword: 'linhlinh',
     },

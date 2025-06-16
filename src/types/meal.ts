@@ -21,6 +21,7 @@ export interface MealPlan {
 
 export interface DietPlan {
   _id: string;
+  type: 'gemma' | 'gemini' | 'lychee';
   nutritionsPerDay: Nutrition;
   plan: MealPlan[];
 }

@@ -21,7 +21,7 @@ export const calculateDietPlanProgress = (
     return {
       remainingDays: 0,
       completedDays: 0,
-      totalDays: totalLength ?? 0,
+      totalDays: totalLength ?? 7,
       progressPercentage: 0,
     };
   }

@@ -46,14 +46,10 @@ const UserProfile = () => {
       });
       setSettingsModalVisible(false);
     } catch {
-      // Error handling is done in the hook
       setSettingsModalVisible(false);
     }
   };
 
-  const showComingSoonAlert = () => {
-    Alert.alert('Coming Soon', 'This feature is under development.');
-  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.BACKGROUND} barStyle="dark-content" />
@@ -66,11 +62,6 @@ const UserProfile = () => {
             lastName={userData?.lastName || ''}
           />
           <View style={styles.buttonContainer}>
-            <ProfileButton
-              label="Update Profile"
-              iconName="person-outline"
-              onPress={showComingSoonAlert}
-            />
             <ProfileButton
               label="Settings"
               iconName="settings-outline"

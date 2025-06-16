@@ -18,12 +18,17 @@ import { ROUTES } from '../../constants/routes';
 import { COLORS } from '../../constants/colors';
 import { calculateDietPlanProgress } from '../../utils/dietPlanProgress';
 import { useUser } from '~/hooks';
+import { useEffect } from 'react';
 
 const FoodHistory = () => {
   // @ts-ignore - Allow navigation to the new screen
   const navigation = useNavigation();
   const { data: user } = useUser();
   const { data: dietPlan, isLoading, isError, error, refetch } = useMealHistory();
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const { remainingDays, completedDays, totalDays, progressPercentage } = calculateDietPlanProgress(
     dietPlan,

@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { COLORS, withAlpha } from '../../constants/colors';
+import { useDashboardData } from '~/pages/dashboard/hooks/useDashboardData';
 
 export type BottomNavRoute = 'Home' | 'Food' | 'UserProfile';
 
@@ -17,6 +18,7 @@ const navItems: { route: BottomNavRoute; icon: string }[] = [
 ];
 
 export const BottomNav: React.FC<BottomNavProps> = ({ active }) => {
+  // const { refetch } = useDashboardData();
   const navigation = useNavigation<NavigationProp<any>>();
 
   return (
@@ -25,7 +27,10 @@ export const BottomNav: React.FC<BottomNavProps> = ({ active }) => {
         <TouchableOpacity
           key={item.route}
           style={styles.button}
-          onPress={() => navigation.navigate(item.route)}>
+          onPress={() => {
+            navigation.navigate(item.route);
+            // refetch();
+          }}>
           <Icon
             name={
               item.route === 'Home'

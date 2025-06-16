@@ -8,12 +8,12 @@ import { Provider } from 'react-native-paper';
 import { NumberInputField } from '~/components/NumberInputField';
 import { RegisterLayout } from '../components/RegisterLayout';
 import { IUser } from '~/types/user';
-import authService from '~/services/auth.service';
+import cookiesService from '~/services/cookie.service';
 
 const MEAL_LENGTH = {
   MIN: 7,
   MAX: 30,
-}
+};
 
 export interface MealPreferencesReq {
   mealPlanDays?: number;
@@ -45,8 +45,7 @@ export function RegisterStep4({
         payload: { mealPlanDays: data.mealPlanDays },
         params: { type: 'mealLength' },
       });
-      // if (!user) return;
-      // authService.storeAuthInCookie(defaultValues);
+      cookiesService.setItem('userAuth', { ...data, mealPlanDays: data.mealPlanDays });
       onNext();
     } catch (err) {
       console.error('Error updating meal plan preferences:', err);
@@ -62,7 +61,8 @@ export function RegisterStep4({
             showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
               <Text style={styles.description}>
-                How many days would you like your meal plan to cover? Choose between {MEAL_LENGTH.MIN} and {MEAL_LENGTH.MAX} days.
+                How many days would you like your meal plan to cover? Choose between{' '}
+                {MEAL_LENGTH.MIN} and {MEAL_LENGTH.MAX} days.
               </Text>
 
               <View style={styles.daysSelector}>

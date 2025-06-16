@@ -12,7 +12,6 @@ import { mockDailyProgress } from '../../mocks/dashboardMockData';
 import { useDashboardData } from './hooks/useDashboardData';
 import styles from './styles/dashboard.style';
 import { COLORS } from '../../constants/colors';
-import { useEffect } from 'react';
 
 /**
  * Main Dashboard component

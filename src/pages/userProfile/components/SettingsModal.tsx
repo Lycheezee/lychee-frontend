@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Modal, ActivityIndicator, Image } from 'r
 import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../../../constants/colors';
 import styles from '../styles/userProfile.style';
+import { useUser } from '~/hooks';
+import cookiesService from '~/services/cookie.service';
 
 interface SettingsModalProps {
   visible: boolean;
@@ -17,8 +19,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   onSelectAI,
   isLoading = false,
 }) => {
+  const { data } = useUser();
+  const currentModel = data?.dietPlan?.type || 'lychee';
+
   const handleAISelection = (model: 'gemma' | 'gemini' | 'lychee') => {
     onSelectAI(model);
+    cookiesService.setItem('userAuth', { ...data, dietPlan: { ...data?.dietPlan, type: model } })
   };
 
   return (
@@ -36,13 +42,18 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           </Text>
           <View style={styles.aiOptionsContainer}>
             <TouchableOpacity
-              style={styles.aiOptionButton}
+              style={
+                currentModel === 'gemini' ? styles.aiOptionButtonDisabled : styles.aiOptionButton
+              }
               onPress={() => handleAISelection('gemini')}
-              disabled={isLoading}>
+              disabled={isLoading || currentModel === 'gemini'}>
               <View style={styles.aiOptionContent}>
                 <Icon name="sparkles" size={32} color={COLORS.PRIMARY} />
                 <View style={styles.aiOptionText}>
-                  <Text style={styles.aiOptionTitle}>Gemini</Text>
+                  <View style={styles.aiOptionTitleContainer}>
+                    <Text style={styles.aiOptionTitle}>Gemini</Text>
+                    {currentModel === 'gemini' && <Text style={styles.inUseText}>in use</Text>}
+                  </View>
                   <Text style={styles.aiOptionDescription}>
                     Advanced AI model with comprehensive nutrition analysis
                   </Text>
@@ -51,13 +62,18 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
               <Icon name="chevron-forward" size={20} color={COLORS.TEXT_SECONDARY} />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.aiOptionButton}
+              style={
+                currentModel === 'gemma' ? styles.aiOptionButtonDisabled : styles.aiOptionButton
+              }
               onPress={() => handleAISelection('gemma')}
-              disabled={isLoading}>
+              disabled={isLoading || currentModel === 'gemma'}>
               <View style={styles.aiOptionContent}>
                 <Icon name="flash" size={32} color={COLORS.SECONDARY} />
                 <View style={styles.aiOptionText}>
-                  <Text style={styles.aiOptionTitle}>Gemma</Text>
+                  <View style={styles.aiOptionTitleContainer}>
+                    <Text style={styles.aiOptionTitle}>Gemma</Text>
+                    {currentModel === 'gemma' && <Text style={styles.inUseText}>in use</Text>}
+                  </View>
                   <Text style={styles.aiOptionDescription}>
                     Fast and efficient AI model for quick meal planning
                   </Text>
@@ -66,9 +82,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
               <Icon name="chevron-forward" size={20} color={COLORS.TEXT_SECONDARY} />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.aiOptionButton}
+              style={
+                currentModel === 'lychee' ? styles.aiOptionButtonDisabled : styles.aiOptionButton
+              }
               onPress={() => handleAISelection('lychee')}
-              disabled={isLoading}>
+              disabled={isLoading || currentModel === 'lychee'}>
               <View style={styles.aiOptionContent}>
                 <Image
                   source={require('../../../../assets/lychee_logo.png')}
@@ -76,7 +94,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                   resizeMode="contain"
                 />
                 <View style={styles.aiOptionText}>
-                  <Text style={styles.aiOptionTitle}>Lychee Model</Text>
+                  <View style={styles.aiOptionTitleContainer}>
+                    <Text style={styles.aiOptionTitle}>Lychee Model</Text>
+                    {currentModel === 'lychee' && <Text style={styles.inUseText}>in use</Text>}
+                  </View>
                   <Text style={styles.aiOptionDescription}>
                     Our proprietary nutrition-focused AI for personalized meal planning
                   </Text>

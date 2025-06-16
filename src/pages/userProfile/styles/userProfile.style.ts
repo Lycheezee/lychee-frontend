@@ -210,7 +210,7 @@ const userProfileStyles = StyleSheet.create({
     backgroundColor: COLORS.CREAM,
     borderRadius: 15,
     padding: 24,
-    maxHeight: '80%',
+    maxHeight: '90%',
   },
   settingsModalHeader: {
     flexDirection: 'row',
@@ -255,6 +255,17 @@ const userProfileStyles = StyleSheet.create({
       },
     }),
   },
+  aiOptionButtonDisabled: {
+    backgroundColor: withAlpha(COLORS.BACKGROUND, 0.6),
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: COLORS.PRIMARY,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    opacity: 0.7,
+  },
   aiOptionContent: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -269,6 +280,21 @@ const userProfileStyles = StyleSheet.create({
     fontWeight: '600',
     color: COLORS.TEXT_PRIMARY,
     marginBottom: 4,
+  },
+  aiOptionTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  inUseText: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: COLORS.PRIMARY,
+    backgroundColor: withAlpha(COLORS.PRIMARY, 0.1),
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+    marginLeft: 8,
   },
   aiOptionDescription: {
     fontSize: 14,

@@ -8,8 +8,8 @@ export enum EGender {
 export const genderOptions = [
   { label: 'Male', value: EGender.MALE },
   { label: 'Female', value: EGender.FEMALE },
-  { label: 'Other', value: EGender.OTHER },
-  { label: 'Prefer not to say', value: EGender.PREFER_NOT_TO_SAY },
+  // { label: 'Other', value: EGender.OTHER },
+  // { label: 'Prefer not to say', value: EGender.PREFER_NOT_TO_SAY },
 ];
 
 export enum ExerciseRate {
