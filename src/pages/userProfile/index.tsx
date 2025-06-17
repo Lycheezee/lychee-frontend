@@ -87,9 +87,7 @@ const UserProfile = () => {
         onSelectAI={handleAISelection}
         isLoading={regenerateDietPlan.isPending}
       />
-      <View style={styles.bottomNavContainer}>
-        <BottomNav active="UserProfile" />
-      </View>
+      <BottomNav active="UserProfile" />
     </SafeAreaView>
   );
 };

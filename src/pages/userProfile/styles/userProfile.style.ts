@@ -311,6 +311,23 @@ const userProfileStyles = StyleSheet.create({
     color: COLORS.TEXT_SECONDARY,
     textAlign: 'center',
   },
+  warningContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: withAlpha(COLORS.WARNING, 0.1),
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.WARNING,
+  },
+  warningText: {
+    fontSize: 14,
+    color: COLORS.WARNING,
+    marginLeft: 8,
+    flex: 1,
+    lineHeight: 18,
+  },
 });
 
 export default userProfileStyles;

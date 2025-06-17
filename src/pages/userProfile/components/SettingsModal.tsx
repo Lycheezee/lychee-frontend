@@ -24,7 +24,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
   const handleAISelection = (model: 'gemma' | 'gemini' | 'lychee') => {
     onSelectAI(model);
-    cookiesService.setItem('userAuth', { ...data, dietPlan: { ...data?.dietPlan, type: model } })
+    cookiesService.setItem('userAuth', { ...data, dietPlan: { ...data?.dietPlan, type: model } });
   };
 
   return (
@@ -40,6 +40,14 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           <Text style={styles.settingsModalSubtitle}>
             Choose an AI model to regenerate your personalized diet plan:
           </Text>
+          {currentModel !== 'lychee' && (
+            <View style={styles.warningContainer}>
+              <Icon name="warning" size={20} color={COLORS.WARNING} />
+              <Text style={styles.warningText}>
+                If you change to Lychee model, you will lose your current progress
+              </Text>
+            </View>
+          )}
           <View style={styles.aiOptionsContainer}>
             <TouchableOpacity
               style={
